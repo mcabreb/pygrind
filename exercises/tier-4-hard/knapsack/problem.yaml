@@ -1,0 +1,42 @@
+id: "t4-004"
+title: "0/1 Knapsack"
+tier: 4
+topic: "dp"
+description: |
+  Given a knapsack with a maximum weight capacity W and N items, each with a
+  weight and a value, determine the maximum total value you can carry without
+  exceeding the capacity. Each item can be taken at most once (0/1 choice).
+
+  Input format:
+    - Line 1: integer W (knapsack capacity, 0 <= W <= 10000)
+    - Line 2: integer N (number of items, 0 <= N <= 1000)
+    - Next N lines: two space-separated integers "weight value" per item
+      (1 <= weight <= 10000, 1 <= value <= 10000)
+
+  Output format:
+    - A single integer: the maximum value achievable.
+time_estimate: 12
+hint: "Use bottom-up dynamic programming with a 1D array of size W+1. For each item, iterate capacity from W down to the item's weight to avoid using an item twice."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      W = int(data[idx]); idx += 1
+      N = int(data[idx]); idx += 1
+      items = []
+      for _ in range(N):
+          w = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          items.append((w, v))
+      dp = [0] * (W + 1)
+      for w, v in items:
+          for c in range(W, w - 1, -1):
+              if dp[c - w] + v > dp[c]:
+                  dp[c] = dp[c - w] + v
+      print(dp[W])
+
+  solve()
+source: "original"
+validation: "exact"

@@ -1,0 +1,60 @@
+id: "t4-005"
+title: "Topological Sort"
+tier: 4
+topic: "graphs"
+description: |
+  Given a directed graph with N nodes (numbered 1 to N) and M edges, produce a
+  valid topological ordering of the nodes. If the graph contains a cycle (i.e.,
+  it is not a DAG), print "CYCLE" instead.
+
+  For determinism, when multiple nodes have zero in-degree simultaneously,
+  always pick the node with the smallest number first.
+
+  Input format:
+    - Line 1: two space-separated integers "N M"
+      (1 <= N <= 100000, 0 <= M <= 200000)
+    - Next M lines: two space-separated integers "u v" representing a directed
+      edge from node u to node v (meaning u must come before v).
+
+  Output format:
+    - If the graph is a DAG: a single line with nodes in a valid topological
+      order, separated by spaces.
+    - If the graph has a cycle: print "CYCLE".
+time_estimate: 12
+hint: "Use Kahn's algorithm (BFS-based topological sort). Maintain in-degree counts and a min-heap (heapq) of nodes with in-degree 0. If the result has fewer than N nodes, a cycle exists."
+solution: |
+  import sys
+  import heapq
+
+  def solve():
+      data = sys.stdin.buffer.read().split()
+      idx = 0
+      N = int(data[idx]); idx += 1
+      M = int(data[idx]); idx += 1
+      adj = [[] for _ in range(N + 1)]
+      indeg = [0] * (N + 1)
+      for _ in range(M):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          adj[u].append(v)
+          indeg[v] += 1
+      heap = []
+      for i in range(1, N + 1):
+          if indeg[i] == 0:
+              heapq.heappush(heap, i)
+      result = []
+      while heap:
+          u = heapq.heappop(heap)
+          result.append(u)
+          for v in adj[u]:
+              indeg[v] -= 1
+              if indeg[v] == 0:
+                  heapq.heappush(heap, v)
+      if len(result) != N:
+          print("CYCLE")
+      else:
+          print(' '.join(map(str, result)))
+
+  solve()
+source: "original"
+validation: "exact"

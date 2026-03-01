@@ -1,0 +1,39 @@
+id: "t4-003"
+title: "Shortest Path BFS"
+tier: 4
+topic: "graphs"
+description: "Given an unweighted undirected graph, find the shortest path between two nodes measured by the number of edges. The first line contains N and M (number of nodes and edges). Nodes are numbered 1 to N. The next M lines each contain two integers u and v representing an edge. The last line contains S and T (source and target). Print the shortest path length (number of edges). If no path exists, print -1."
+time_estimate: 12
+hint: "Use BFS from the source node. Maintain a distance array initialized to -1. Set distance[S] = 0 and explore neighbors level by level. When you reach T, return its distance."
+solution: |
+  from collections import deque
+  n, m = map(int, input().split())
+  adj = [[] for _ in range(n + 1)]
+  for _ in range(m):
+      u, v = map(int, input().split())
+      adj[u].append(v)
+      adj[v].append(u)
+  s, t = map(int, input().split())
+  if s == t:
+      print(0)
+  else:
+      dist = [-1] * (n + 1)
+      dist[s] = 0
+      queue = deque([s])
+      found = False
+      while queue:
+          node = queue.popleft()
+          for nb in adj[node]:
+              if dist[nb] == -1:
+                  dist[nb] = dist[node] + 1
+                  if nb == t:
+                      print(dist[nb])
+                      found = True
+                      break
+                  queue.append(nb)
+          if found:
+              break
+      if not found:
+          print(-1)
+source: "original"
+validation: "exact"

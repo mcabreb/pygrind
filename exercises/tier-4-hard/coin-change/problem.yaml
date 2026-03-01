@@ -1,0 +1,21 @@
+id: "t4-002"
+title: "Coin Change"
+tier: 4
+topic: "dp"
+description: "Given a target amount and a set of coin denominations, find the minimum number of coins needed to make the exact amount. Read the target amount on line 1, the number of coin denominations N on line 2, then N lines each containing one denomination. Print the minimum number of coins required. If it is impossible to make the exact amount, print -1."
+time_estimate: 12
+hint: "Use bottom-up DP. Create an array dp of size amount+1 initialized to infinity, with dp[0]=0. For each amount from 1 to target, try each coin and take dp[amount - coin] + 1 if it improves the current value."
+solution: |
+  amount = int(input())
+  n = int(input())
+  coins = [int(input()) for _ in range(n)]
+  INF = float('inf')
+  dp = [INF] * (amount + 1)
+  dp[0] = 0
+  for i in range(1, amount + 1):
+      for c in coins:
+          if c <= i and dp[i - c] + 1 < dp[i]:
+              dp[i] = dp[i - c] + 1
+  print(dp[amount] if dp[amount] != INF else -1)
+source: "original"
+validation: "exact"
