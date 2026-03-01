@@ -1,0 +1,19 @@
+id: "tier4-bin-search"
+title: "Binary Search — First Occurrence"
+tier: 4
+topic: "searching"
+description: "Given a sorted list of N integers and a target, print the 0-based index of the first occurrence of the target. If not found, print -1. First line: N. Next N lines: the sorted integers. Last line: the target."
+time_estimate: 15
+hint: "Use bisect_left from the bisect module, or implement binary search tracking the leftmost match."
+solution: |
+  import bisect
+  n = int(input())
+  arr = [int(input()) for _ in range(n)]
+  target = int(input())
+  idx = bisect.bisect_left(arr, target)
+  if idx < n and arr[idx] == target:
+      print(idx)
+  else:
+      print(-1)
+source: "original"
+validation: "exact"

@@ -1,0 +1,23 @@
+id: "tier3-find-dupes"
+title: "Find Duplicates in List"
+tier: 3
+topic: "lists"
+description: "Read N integers (one per line, first line is N) and print the duplicate values in sorted order, one per line. If no duplicates, print 'none'."
+time_estimate: 10
+hint: "Use collections.Counter or a set to track seen values."
+solution: |
+  n = int(input())
+  nums = [int(input()) for _ in range(n)]
+  seen = set()
+  dupes = set()
+  for x in nums:
+      if x in seen:
+          dupes.add(x)
+      seen.add(x)
+  if dupes:
+      for d in sorted(dupes):
+          print(d)
+  else:
+      print("none")
+source: "original"
+validation: "exact"

@@ -1,0 +1,13 @@
+id: "tier1-sum-two"
+title: "Sum of Two Numbers"
+tier: 1
+topic: "arithmetic"
+description: "Read two integers from input and print their sum."
+time_estimate: 3
+hint: "Use input() twice and convert to int."
+solution: |
+  a = int(input())
+  b = int(input())
+  print(a + b)
+source: "original"
+validation: "exact"
