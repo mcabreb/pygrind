@@ -4,6 +4,13 @@
 Usage:
     python scripts/build.py [--clean]
 
+Platform notes:
+    Linux:   Produces dist/pytrainer/ directory with executable
+    Windows: Produces dist/pytrainer/ — then use Inno Setup to create installer:
+             1. python installer/windows/embed_python.py
+             2. Compile installer/windows/pytrainer.iss with Inno Setup 6+
+    macOS:   Produces .app bundle — then wrap with create-dmg
+
 Prerequisites:
     pip install -e ".[dev]"   # installs pyinstaller
 """
