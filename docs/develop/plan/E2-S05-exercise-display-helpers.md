@@ -1,7 +1,7 @@
 # E2-S05: Exercise Display Data Preparation
 
 ## Status
-To Do
+Done
 
 ## Epic
 E2 - Exercise Engine
@@ -16,10 +16,10 @@ S
 [PCT] Create helper functions that format exercise data for UI consumption: formatted description text, sample I/O extracted from the first test case, and tier badge text with associated color. These helpers bridge the data models and the UI layer.
 
 ## Acceptance Criteria
-- [ ] Provides formatted description text for the problem panel
-- [ ] Extracts first test case as sample input/output for display
-- [ ] Returns tier badge text ('Tier 1 — Easy', 'Tier 2 — Basic', etc.) and associated color
-- [ ] Handles exercises with no test cases gracefully (shows "No sample available")
+- [x] Provides formatted description text for the problem panel
+- [x] Extracts first test case as sample input/output for display
+- [x] Returns tier badge text ('Tier 1 — Easy', 'Tier 2 — Basic', etc.) and associated color
+- [x] Handles exercises with no test cases gracefully (shows "No sample available")
 
 ## Tasks
 - **T1: Implement display helpers** — Create helper functions (in core/ or as Exercise methods): get_sample_io(exercise) -> tuple[str, str], get_tier_badge(tier) -> tuple[str, str], format_description(exercise) -> str.
@@ -32,3 +32,17 @@ S
 
 ## Dependencies
 - E2-S01 (Exercise Loader) -- provides loaded Exercise objects with test case data.
+
+## Implementation Summary
+
+**Files Created/Modified:**
+- `src/pytrainer/core/display.py` — format_description(), get_sample_io(), get_tier_badge() (~50 lines)
+- `tests/core/test_display.py` — 11 tests covering all 4 AC (description, sample I/O, tier badge, no test cases)
+
+**Key Decisions:**
+- Standalone functions rather than Exercise methods — keeps models clean, core/ has the logic
+- Tier badge format: "Tier N — Name" with em dash per spec
+
+**Tests:** 11 new tests, all passing
+**Branch:** hive/E2-exercise-engine
+**Date:** 2026-03-01
