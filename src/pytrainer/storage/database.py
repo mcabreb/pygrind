@@ -76,8 +76,9 @@ class Database:
         conn = self._connect()
         with conn:
             conn.execute(
-                "INSERT OR REPLACE INTO sessions (session_id, date, mode, total_score, max_score, time_used) "
-                "VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT OR REPLACE INTO sessions"
+                " (session_id, date, mode, total_score, max_score, time_used)"
+                " VALUES (?, ?, ?, ?, ?, ?)",
                 (
                     result.session_id,
                     result.date,

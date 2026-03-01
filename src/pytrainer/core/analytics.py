@@ -115,7 +115,8 @@ class SessionAnalytics:
         if weak_tiers and len(recs) < 3:
             tier, data = weak_tiers[0]
             recs.append(
-                f"Practice tier-{tier} problems — solved {data['solved']}/{data['total']} this session"
+                f"Practice tier-{tier} problems"
+                f" — solved {data['solved']}/{data['total']} this session"
             )
 
         return recs[:3]
