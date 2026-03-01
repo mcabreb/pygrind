@@ -1,7 +1,7 @@
 # E5-S02: Competition Window Layout
 
 ## Status
-To Do
+Done
 
 ## Epic
 E5 - Session Orchestration & Game Loop
@@ -16,12 +16,12 @@ M
 [PCT] The main competition screen that wires all UI widgets together into a functional workspace: problem panel on the left, code editor on the right, output panel below the editor, timer at the top, and Run/Submit buttons. This is where users spend their entire 3-hour session.
 
 ## Acceptance Criteria
-- [ ] Problem panel occupies left side (30-40% width)
-- [ ] Code editor occupies right side (60-70% width) with Run/Submit buttons below
-- [ ] Output panel below the editor (collapsible or resizable)
-- [ ] Timer widget prominently at the top center
-- [ ] QSplitter allows user to resize panels
-- [ ] Ctrl+Enter triggers Submit from anywhere in the editor
+- [x] Problem panel occupies left side (30-40% width)
+- [x] Code editor occupies right side (60-70% width) with Run/Submit buttons below
+- [x] Output panel below the editor (collapsible or resizable)
+- [x] Timer widget prominently at the top center
+- [x] QSplitter allows user to resize panels
+- [x] Ctrl+Enter triggers Submit from anywhere in the editor
 
 ## Tasks
 - **T1: Implement CompetitionWindow** — Create ui/competition.py. Use QSplitter for left/right. Nest vertical QSplitter for editor/output on right side. Add QToolBar or button bar with Run/Submit.
@@ -38,3 +38,18 @@ M
 - E4-S06 (Output Panel) -- provides OutputPanel.
 - E4-S07 (Timer Widget) -- provides TimerWidget.
 - E5-S01 (Session Manager) -- provides session state and logic.
+
+## Implementation Summary
+
+**Files Created/Modified:**
+- `src/pytrainer/ui/competition.py` — CompetitionWindow with QSplitter layout, buttons, Ctrl+Return shortcut (~85 lines)
+- `tests/ui/test_competition.py` — 12 tests covering all 6 ACs (~120 lines)
+
+**Key Decisions:**
+- Horizontal QSplitter at 35/65 ratio for problem/editor, vertical QSplitter at 70/30 for editor/output
+- run_requested / submit_requested signals decouple buttons from action logic (wired in E5-S03)
+- QScintilla mocked at sys.modules level in tests for headless CI compatibility
+
+**Tests:** 12 new tests, all passing
+**Branch:** hive/E5-session-orchestration
+**Date:** 2026-03-01
