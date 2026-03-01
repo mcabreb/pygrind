@@ -66,7 +66,7 @@ class TestEntryPoint:
 
     def test_module_runs(self):
         result = subprocess.run(
-            [sys.executable, "-m", "pytrainer"],
+            [sys.executable, "-m", "pytrainer", "--version"],
             capture_output=True,
             text=True,
             cwd=ROOT,
