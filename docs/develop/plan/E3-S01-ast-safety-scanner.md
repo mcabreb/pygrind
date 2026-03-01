@@ -1,7 +1,7 @@
 # E3-S01: AST Safety Scanner
 
 ## Status
-To Do
+Done
 
 ## Epic
 E3 - Code Execution Pipeline
@@ -16,14 +16,14 @@ M
 [PCT] Implement SafetyScanner using Python's ast.NodeVisitor to detect blocked imports and builtin calls before code execution. This is the first line of defense preventing user code from accessing the filesystem, network, or system operations. Security-critical module requiring comprehensive parametrized tests for every blocked and every allowed construct.
 
 ## Acceptance Criteria
-- [ ] Blocks imports: os, sys, shutil, subprocess, socket, http, urllib, ctypes, signal, pathlib, importlib
-- [ ] Blocks builtins: eval(), exec(), compile(), __import__(), open()
-- [ ] Allows: math, string, collections, itertools, functools, heapq, bisect, re, decimal, fractions, statistics, random, copy, operator, typing
-- [ ] Returns ScanResult(safe=bool, violations=list[str]) with specific violation messages
-- [ ] Handles both 'import os' and 'from os import path' forms
-- [ ] Handles aliased imports (import os as o) and nested imports
-- [ ] Syntax errors in user code return ScanResult with parse error (not a crash)
-- [ ] Parametrized tests for every blocked and every allowed module
+- [x] Blocks imports: os, sys, shutil, subprocess, socket, http, urllib, ctypes, signal, pathlib, importlib
+- [x] Blocks builtins: eval(), exec(), compile(), __import__(), open()
+- [x] Allows: math, string, collections, itertools, functools, heapq, bisect, re, decimal, fractions, statistics, random, copy, operator, typing
+- [x] Returns ScanResult(safe=bool, violations=list[str]) with specific violation messages
+- [x] Handles both 'import os' and 'from os import path' forms
+- [x] Handles aliased imports (import os as o) and nested imports
+- [x] Syntax errors in user code return ScanResult with parse error (not a crash)
+- [x] Parametrized tests for every blocked and every allowed module
 
 ## Tasks
 - **T1: Implement SafetyVisitor** — Create core/scanner.py with _SafetyVisitor(ast.NodeVisitor) implementing visit_Import(), visit_ImportFrom(), visit_Call(). Collect violations in a list as strings.
@@ -39,3 +39,18 @@ M
 
 ## Dependencies
 - E1-S01 (Initialize Project Structure) -- provides the core/ package directory.
+
+## Implementation Summary
+
+**Files Created/Modified:**
+- `src/pytrainer/core/scanner.py` — SafetyScanner, _SafetyVisitor, ScanResult, BLOCKED_IMPORTS, BLOCKED_BUILTINS (~65 lines)
+- `tests/core/test_scanner.py` — Comprehensive parametrized tests (83 tests)
+
+**Key Decisions:**
+- Used frozenset for blocklists (immutable, O(1) lookup)
+- Top-level module extraction via `.split(".")[0]` handles submodule imports (e.g. `http.server`)
+- `ast.Attribute` check catches `builtins.open()` pattern
+
+**Tests:** 83 new tests, all passing
+**Branch:** hive/E3-execution-pipeline
+**Date:** 2026-03-01
