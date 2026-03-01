@@ -1,7 +1,7 @@
 # E3-S03: Timeout & Resource Management
 
 ## Status
-To Do
+Done
 
 ## Epic
 E3 - Code Execution Pipeline
@@ -16,12 +16,12 @@ S
 [PCT] Add execution safety limits to the CodeRunner: a 10-second timeout via QTimer that forcefully kills runaway processes, and platform-specific memory limits (256MB on Linux/macOS via the resource module). These limits prevent infinite loops and memory bombs from affecting the host system.
 
 ## Acceptance Criteria
-- [ ] QTimer starts at 10000ms when QProcess starts execution
-- [ ] On timeout: QProcess.kill() forcefully terminates the subprocess
-- [ ] Emits timeout() signal distinct from finished() signal
-- [ ] Linux/macOS: resource.setrlimit sets 256MB RLIMIT_AS memory limit
-- [ ] Windows: timeout is primary safety net (memory limit documented as best-effort)
-- [ ] Temp file cleaned up even on timeout
+- [x] QTimer starts at 10000ms when QProcess starts execution
+- [x] On timeout: QProcess.kill() forcefully terminates the subprocess
+- [x] Emits timeout() signal distinct from finished() signal
+- [x] Linux/macOS: resource.setrlimit sets 256MB RLIMIT_AS memory limit
+- [x] Windows: timeout is primary safety net (memory limit documented as best-effort)
+- [x] Temp file cleaned up even on timeout
 
 ## Tasks
 - **T1: Add timeout logic** — Add QTimer(10000) to CodeRunner. Start timer when QProcess starts. Connect timeout to _on_timeout() that calls QProcess.kill() and emits timeout() signal. Cancel timer when process finishes normally.
@@ -35,3 +35,19 @@ S
 
 ## Dependencies
 - E3-S02 (QProcess Code Runner) -- provides the CodeRunner class to extend with timeout and resource limits.
+
+## Implementation Summary
+
+**Files Created/Modified:**
+- `src/pytrainer/core/runner.py` — Added QTimer timeout, timeout signal, _wrap_with_limits(), resource.setrlimit (~95 lines total)
+- `tests/core/test_timeout.py` — Timeout and resource limit tests (7 tests)
+
+**Key Decisions:**
+- Wrapped user code with resource.setrlimit preamble (no preexec_fn needed with QProcess)
+- _timed_out flag prevents finished signal from firing when timeout kills process
+- Timer cancelled in _on_finished to prevent double-fire
+- _timeout_ms exposed as instance attribute for test overrides
+
+**Tests:** 7 new tests (6 pass, 1 skipped on non-Windows)
+**Branch:** hive/E3-execution-pipeline
+**Date:** 2026-03-01
