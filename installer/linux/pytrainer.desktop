@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=PyTrainer
+Comment=Python Competition Trainer — HP Code Wars-style coding competitions
+Exec=pytrainer
+Icon=pytrainer
+Type=Application
+Categories=Education;Development;
+Terminal=false
+StartupNotify=true

@@ -20,6 +20,7 @@ from pytrainer.models.session import (
 # Fixtures
 # ---------------------------------------------------------------------------
 
+
 @pytest.fixture
 def exercise_index() -> ExerciseIndex:
     """Build a minimal ExerciseIndex with enough exercises per tier."""
@@ -61,6 +62,7 @@ def session_mgr(session_config, exercise_index, qapp):
 # AC-1: Constructor takes SessionConfig + ExerciseIndex, calls selection
 # ---------------------------------------------------------------------------
 
+
 class TestConstructor:
     def test_constructor_calls_selection(self, session_config, exercise_index, qapp):
         """AC-1: Constructor calls select_session() for 30 exercises."""
@@ -77,6 +79,7 @@ class TestConstructor:
 # ---------------------------------------------------------------------------
 # AC-2: Initializes 30 ProblemState objects linked to selected exercises
 # ---------------------------------------------------------------------------
+
 
 class TestProblemStates:
     def test_problems_are_problem_state_objects(self, session_mgr):
@@ -97,6 +100,7 @@ class TestProblemStates:
 # ---------------------------------------------------------------------------
 # AC-3: Tracks current_problem_index, mode, and running score
 # ---------------------------------------------------------------------------
+
 
 class TestTracking:
     def test_current_problem_index_default(self, session_mgr):
@@ -121,6 +125,7 @@ class TestTracking:
 # ---------------------------------------------------------------------------
 # AC-4: State transitions: unsolved→attempted on wrong, attempted→solved on correct
 # ---------------------------------------------------------------------------
+
 
 class TestStateTransitions:
     def test_wrong_submit_marks_attempted(self, session_mgr):
@@ -161,6 +166,7 @@ class TestStateTransitions:
 # AC-5: to_json() serializes full session state
 # ---------------------------------------------------------------------------
 
+
 class TestToJson:
     def test_to_json_returns_valid_json(self, session_mgr):
         """AC-5: to_json() returns a parseable JSON string."""
@@ -200,6 +206,7 @@ class TestToJson:
 # AC-6: from_json() restores session from serialized state
 # ---------------------------------------------------------------------------
 
+
 class TestFromJson:
     def test_from_json_roundtrip(self, session_mgr, exercise_index):
         """AC-6: from_json(to_json()) restores equivalent state."""
@@ -231,6 +238,7 @@ class TestFromJson:
 # ---------------------------------------------------------------------------
 # AC-7: end() calculates and returns final SessionResult
 # ---------------------------------------------------------------------------
+
 
 class TestEnd:
     def test_end_returns_session_result(self, session_mgr):
