@@ -1,0 +1,12 @@
+id: "tier2-reverse-str"
+title: "Reverse a String"
+tier: 2
+topic: "strings"
+description: "Read a string from input and print it reversed."
+time_estimate: 5
+hint: "Python strings support slicing with [::-1]."
+solution: |
+  s = input()
+  print(s[::-1])
+source: "original"
+validation: "exact"
