@@ -10,6 +10,7 @@ class MainMenuScreen(QWidget):
 
     start_requested = pyqtSignal()
     history_requested = pyqtSignal()
+    flags_requested = pyqtSignal()
 
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -43,6 +44,11 @@ class MainMenuScreen(QWidget):
         history_btn.setMinimumSize(250, 50)
         history_btn.clicked.connect(self.history_requested)
         btn_layout.addWidget(history_btn)
+
+        self._flags_button = QPushButton("Flagged Exercises")
+        self._flags_button.setMinimumSize(250, 50)
+        self._flags_button.clicked.connect(self.flags_requested)
+        btn_layout.addWidget(self._flags_button)
 
         quit_btn = QPushButton("Quit")
         quit_btn.setMinimumSize(250, 50)

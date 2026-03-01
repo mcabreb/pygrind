@@ -1,5 +1,9 @@
 """Session results summary screen — end-of-session display."""
 
+from __future__ import annotations
+
+from typing import Any
+
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import (
@@ -80,6 +84,17 @@ class ResultsScreen(QWidget):
 
         layout.addSpacing(16)
 
+        # Analytics section (E7-S06)
+        self._analytics_label = QLabel()
+        self._analytics_label.setWordWrap(True)
+        self._analytics_label.setStyleSheet(
+            "background-color: #E3F2FD; padding: 12px; border-radius: 6px;"
+        )
+        self._analytics_label.setVisible(False)
+        layout.addWidget(self._analytics_label)
+
+        layout.addSpacing(16)
+
         # Return to Main Menu button
         btn_row = QHBoxLayout()
         btn_row.addStretch()
@@ -130,3 +145,41 @@ class ResultsScreen(QWidget):
             self._table.setItem(row, 5, QTableWidgetItem(f"{t_mins}:{t_secs:02d}"))
 
             self._table.setItem(row, 6, QTableWidgetItem(str(ps.attempts)))
+
+    def set_analytics(
+        self,
+        tier_stats: dict[int, dict[str, int]],
+        recommendations: list[str],
+        score_trend: list[dict[str, Any]],
+    ) -> None:
+        """Populate the analytics section below the results table."""
+        parts: list[str] = []
+
+        # Tier performance
+        if tier_stats:
+            lines = ["<b>Tier Performance:</b>"]
+            for tier in sorted(tier_stats):
+                d = tier_stats[tier]
+                pct = int(d["solved"] / d["total"] * 100) if d["total"] else 0
+                lines.append(f"  Tier {tier}: {d['solved']}/{d['total']} ({pct}%)")
+            parts.append("\n".join(lines))
+
+        # Score trend
+        if score_trend:
+            lines = ["<b>Previous Sessions:</b>"]
+            for s in score_trend:
+                lines.append(f"  {s['date']}: {s['score']}/{s['max_score']}")
+            parts.append("\n".join(lines))
+
+        # Recommendations
+        if recommendations:
+            lines = ["<b>Recommendations:</b>"]
+            for r in recommendations:
+                lines.append(f"  • {r}")
+            parts.append("\n".join(lines))
+
+        if not parts:
+            parts.append("No analytics data available yet. Complete more sessions to see trends.")
+
+        self._analytics_label.setText("\n\n".join(parts))
+        self._analytics_label.setVisible(True)
