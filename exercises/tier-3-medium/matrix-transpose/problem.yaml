@@ -1,0 +1,16 @@
+id: "t3-005"
+title: "Matrix Transpose"
+tier: 3
+topic: "data structures"
+description: "Read an NxM matrix. The first line contains two integers N and M separated by a space. The next N lines each contain M space-separated integers. Print the transposed MxN matrix, where each of the M output rows contains N space-separated integers."
+time_estimate: 8
+hint: "Read the matrix into a list of lists. The transpose swaps rows and columns: element [i][j] becomes [j][i]. You can use zip(*matrix) to transpose, or build the result with nested loops."
+solution: |
+  n, m = map(int, input().split())
+  matrix = []
+  for _ in range(n):
+      matrix.append(list(map(int, input().split())))
+  for j in range(m):
+      print(" ".join(str(matrix[i][j]) for i in range(n)))
+source: "original"
+validation: "exact"

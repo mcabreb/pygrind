@@ -1,0 +1,31 @@
+id: "t3-003"
+title: "Merge Sorted Lists"
+tier: 3
+topic: "sorting"
+description: "Read two sorted lists of integers and print the merged sorted result, one integer per line. Input format: the first line contains N, followed by N lines of the first sorted list, then a line containing M, followed by M lines of the second sorted list. If both lists are empty, print nothing."
+time_estimate: 8
+hint: "Use two index pointers, one for each list. Compare the current elements and append the smaller one to the result. After one list is exhausted, append the remaining elements from the other list."
+solution: |
+  n = int(input())
+  a = [int(input()) for _ in range(n)]
+  m = int(input())
+  b = [int(input()) for _ in range(m)]
+  i = j = 0
+  result = []
+  while i < n and j < m:
+      if a[i] <= b[j]:
+          result.append(a[i])
+          i += 1
+      else:
+          result.append(b[j])
+          j += 1
+  while i < n:
+      result.append(a[i])
+      i += 1
+  while j < m:
+      result.append(b[j])
+      j += 1
+  for x in result:
+      print(x)
+source: "original"
+validation: "exact"

@@ -1,0 +1,25 @@
+id: "t3-001"
+title: "Binary Search"
+tier: 3
+topic: "searching"
+description: "Given a sorted list of N integers and a target value, find the 0-based index of the first occurrence of the target. If the target is not found, print -1. Input format: the first line contains N (the number of integers), the next N lines each contain one integer in sorted (non-decreasing) order, and the last line contains the target value."
+time_estimate: 8
+hint: "Use two pointers (low and high) and repeatedly check the middle element. When you find a match, keep searching left to ensure it is the first occurrence."
+solution: |
+  n = int(input())
+  nums = [int(input()) for _ in range(n)]
+  target = int(input())
+  lo, hi = 0, n - 1
+  result = -1
+  while lo <= hi:
+      mid = (lo + hi) // 2
+      if nums[mid] == target:
+          result = mid
+          hi = mid - 1
+      elif nums[mid] < target:
+          lo = mid + 1
+      else:
+          hi = mid - 1
+  print(result)
+source: "original"
+validation: "exact"

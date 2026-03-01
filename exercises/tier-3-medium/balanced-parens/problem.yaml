@@ -1,0 +1,25 @@
+id: "t3-002"
+title: "Balanced Parentheses"
+tier: 3
+topic: "data structures"
+description: "Read a single string containing only the characters '(', ')', '[', ']', '{', and '}'. Print \"yes\" if the parentheses are balanced and properly nested, or \"no\" otherwise. An empty string is considered balanced."
+time_estimate: 8
+hint: "Use a stack (Python list). Push opening brackets and pop when you encounter a closing bracket, checking that it matches the most recent opening bracket."
+solution: |
+  s = input()
+  stack = []
+  pairs = {')': '(', ']': '[', '}': '{'}
+  balanced = True
+  for ch in s:
+      if ch in '([{':
+          stack.append(ch)
+      elif ch in ')]}':
+          if not stack or stack[-1] != pairs[ch]:
+              balanced = False
+              break
+          stack.pop()
+  if stack:
+      balanced = False
+  print("yes" if balanced else "no")
+source: "original"
+validation: "exact"

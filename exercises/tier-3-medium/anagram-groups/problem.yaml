@@ -1,0 +1,24 @@
+id: "t3-006"
+title: "Anagram Grouping"
+tier: 3
+topic: "sorting"
+description: "Read N words (first line is N, then N lines each containing one word). Group anagrams together. Print each group on one line with words sorted alphabetically and separated by spaces. Print groups sorted by their first word (alphabetically)."
+time_estimate: 8
+hint: "Two words are anagrams if they have the same sorted characters. Use a dictionary to group words by their sorted character tuple. Then sort each group alphabetically, and sort the groups by their first element."
+solution: |
+  from collections import defaultdict
+
+  n = int(input())
+  groups = defaultdict(list)
+  for _ in range(n):
+      word = input()
+      key = "".join(sorted(word))
+      groups[key].append(word)
+  result = []
+  for key in groups:
+      result.append(sorted(groups[key]))
+  result.sort(key=lambda g: g[0])
+  for group in result:
+      print(" ".join(group))
+source: "original"
+validation: "exact"

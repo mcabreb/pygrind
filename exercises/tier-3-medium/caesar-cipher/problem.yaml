@@ -1,0 +1,22 @@
+id: "t3-004"
+title: "Caesar Cipher"
+tier: 3
+topic: "recursion"
+description: "Read a string on line 1 and a shift amount (integer) on line 2. Print the Caesar cipher encoded string. Only shift letters (a-z, A-Z), preserve case and non-alphabetic characters. For example, shifting 'A' by 3 gives 'D', and shifting 'z' by 1 gives 'a' (wrapping around)."
+time_estimate: 8
+hint: "Consider a recursive approach: define a function that processes one character at a time and recurses on the rest of the string. Use ord() and chr() to shift characters, applying modulo 26 to wrap around the alphabet."
+solution: |
+  def caesar(s, shift):
+      if not s:
+          return ""
+      c = s[0]
+      if c.isalpha():
+          base = ord('A') if c.isupper() else ord('a')
+          c = chr((ord(c) - base + shift) % 26 + base)
+      return c + caesar(s[1:], shift)
+
+  text = input()
+  shift = int(input())
+  print(caesar(text, shift))
+source: "original"
+validation: "exact"
