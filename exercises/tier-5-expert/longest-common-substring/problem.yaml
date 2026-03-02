@@ -1,0 +1,44 @@
+id: "t5-005"
+title: "Longest Common Substring"
+tier: 5
+topic: "dynamic programming"
+description: |
+  Given two strings, find the length of their longest common substring
+  (a contiguous sequence of characters that appears in both strings).
+
+  Input format:
+    - Line 1: a string S1 (1 <= |S1| <= 5000), consisting of lowercase letters
+    - Line 2: a string S2 (1 <= |S2| <= 5000), consisting of lowercase letters
+
+  Output format:
+    - A single integer: the length of the longest common substring.
+      If there is no common substring, output 0.
+time_estimate: 18
+hint: "Use a 2D DP table where dp[i][j] is the length of the longest common substring ending at S1[i-1] and S2[j-1]. If S1[i-1] == S2[j-1], then dp[i][j] = dp[i-1][j-1] + 1, otherwise dp[i][j] = 0. Track the maximum."
+solution: |
+  import sys
+
+  def solve():
+      lines = sys.stdin.read().strip().split('\n')
+      s1 = lines[0]
+      s2 = lines[1]
+      n = len(s1)
+      m = len(s2)
+
+      prev = [0] * (m + 1)
+      best = 0
+
+      for i in range(1, n + 1):
+          curr = [0] * (m + 1)
+          for j in range(1, m + 1):
+              if s1[i - 1] == s2[j - 1]:
+                  curr[j] = prev[j - 1] + 1
+                  if curr[j] > best:
+                      best = curr[j]
+          prev = curr
+
+      print(best)
+
+  solve()
+source: "original"
+validation: "exact"

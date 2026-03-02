@@ -1,0 +1,20 @@
+id: "t2-028"
+title: "Character Frequency"
+tier: 2
+topic: "strings"
+description: "Read a string from stdin. For each unique character in the string (in order of first appearance), print the character followed by a space and its count, one per line. The comparison is case-sensitive."
+time_estimate: 7
+hint: "Use a dictionary to count occurrences. To preserve the order of first appearance, iterate through the string and only add to the result when you encounter a character for the first time."
+solution: |
+  s = input()
+  counts = {}
+  order = []
+  for c in s:
+      if c not in counts:
+          counts[c] = 0
+          order.append(c)
+      counts[c] += 1
+  for c in order:
+      print(c, counts[c])
+source: "original"
+validation: "exact"

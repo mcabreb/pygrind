@@ -1,0 +1,27 @@
+id: "t3-022"
+title: "Evaluate Reverse Polish Notation"
+tier: 3
+topic: "data structures"
+description: "Evaluate an arithmetic expression in Reverse Polish Notation (postfix). Valid operators are +, -, *, and /. Division should truncate toward zero. Input: a single line of space-separated tokens (numbers and operators). Output: print the integer result."
+time_estimate: 10
+hint: "Use a stack. Push numbers onto the stack. When you encounter an operator, pop the top two numbers, apply the operation (second-popped op first-popped), and push the result back."
+solution: |
+  tokens = input().split()
+  stack = []
+  for t in tokens:
+      if t in "+-*/":
+          b = stack.pop()
+          a = stack.pop()
+          if t == '+':
+              stack.append(a + b)
+          elif t == '-':
+              stack.append(a - b)
+          elif t == '*':
+              stack.append(a * b)
+          else:
+              stack.append(int(a / b))
+      else:
+          stack.append(int(t))
+  print(stack[0])
+source: "original"
+validation: "exact"

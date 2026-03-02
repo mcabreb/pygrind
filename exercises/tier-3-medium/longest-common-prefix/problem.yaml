@@ -1,0 +1,19 @@
+id: "t3-009"
+title: "Longest Common Prefix"
+tier: 3
+topic: "strings"
+description: "Given N strings, find the longest common prefix shared by all of them. Input: the first line contains N, followed by N lines each containing one string. Output: print the longest common prefix. If there is no common prefix, print an empty line."
+time_estimate: 8
+hint: "Start with the first string as the prefix. Compare it character-by-character with each subsequent string, shrinking the prefix whenever a mismatch is found."
+solution: |
+  n = int(input())
+  strings = [input() for _ in range(n)]
+  prefix = strings[0]
+  for s in strings[1:]:
+      i = 0
+      while i < len(prefix) and i < len(s) and prefix[i] == s[i]:
+          i += 1
+      prefix = prefix[:i]
+  print(prefix)
+source: "original"
+validation: "exact"

@@ -1,0 +1,15 @@
+id: "t1-030"
+title: "List Maximum"
+tier: 1
+topic: "lists"
+description: "Read an integer n on the first line, then read n integers (one per line). Print the largest of the n integers."
+time_estimate: 3
+hint: "Read all numbers into a list using a loop, then use the max() function."
+solution: |
+  n = int(input())
+  nums = []
+  for _ in range(n):
+      nums.append(int(input()))
+  print(max(nums))
+source: "original"
+validation: "exact"

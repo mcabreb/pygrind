@@ -1,0 +1,94 @@
+id: "t5-027"
+title: "Segment Tree with Lazy Propagation"
+tier: 5
+topic: "advanced data structures"
+description: |
+  Given an array of N integers, process Q operations:
+    - "1 l r v": Add v to all elements in range [l, r] (1-indexed, inclusive).
+    - "2 l r": Query the sum of elements in range [l, r] (1-indexed, inclusive).
+
+  Input format:
+    - Line 1: two space-separated integers N Q
+      (1 <= N <= 100000; 1 <= Q <= 100000)
+    - Line 2: N space-separated integers a_1, ..., a_N (-10^9 <= a_i <= 10^9)
+    - Next Q lines: either "1 l r v" or "2 l r"
+      (1 <= l <= r <= N; -10^9 <= v <= 10^9)
+
+  Output format:
+    - For each type-2 query, output the sum on a separate line.
+time_estimate: 25
+hint: "Build a segment tree with lazy propagation. For range updates, store a pending 'add' value at each node. When querying or updating a node's children, push the lazy value down before proceeding."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.buffer.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      q = int(data[idx]); idx += 1
+      a = [int(data[idx + i]) for i in range(n)]
+      idx += n
+
+      tree = [0] * (4 * n)
+      lazy = [0] * (4 * n)
+
+      def build(node, start, end):
+          if start == end:
+              tree[node] = a[start]
+              return
+          mid = (start + end) // 2
+          build(2*node, start, mid)
+          build(2*node+1, mid+1, end)
+          tree[node] = tree[2*node] + tree[2*node+1]
+
+      def push_down(node, start, end):
+          if lazy[node] != 0:
+              mid = (start + end) // 2
+              lazy[2*node] += lazy[node]
+              lazy[2*node+1] += lazy[node]
+              tree[2*node] += lazy[node] * (mid - start + 1)
+              tree[2*node+1] += lazy[node] * (end - mid)
+              lazy[node] = 0
+
+      def update(node, start, end, l, r, val):
+          if r < start or end < l:
+              return
+          if l <= start and end <= r:
+              tree[node] += val * (end - start + 1)
+              lazy[node] += val
+              return
+          push_down(node, start, end)
+          mid = (start + end) // 2
+          update(2*node, start, mid, l, r, val)
+          update(2*node+1, mid+1, end, l, r, val)
+          tree[node] = tree[2*node] + tree[2*node+1]
+
+      def query(node, start, end, l, r):
+          if r < start or end < l:
+              return 0
+          if l <= start and end <= r:
+              return tree[node]
+          push_down(node, start, end)
+          mid = (start + end) // 2
+          return query(2*node, start, mid, l, r) + query(2*node+1, mid+1, end, l, r)
+
+      build(1, 0, n - 1)
+
+      out = []
+      for _ in range(q):
+          op = int(data[idx]); idx += 1
+          if op == 1:
+              l = int(data[idx]) - 1; idx += 1
+              r = int(data[idx]) - 1; idx += 1
+              v = int(data[idx]); idx += 1
+              update(1, 0, n - 1, l, r, v)
+          else:
+              l = int(data[idx]) - 1; idx += 1
+              r = int(data[idx]) - 1; idx += 1
+              out.append(str(query(1, 0, n - 1, l, r)))
+
+      sys.stdout.write('\n'.join(out) + '\n')
+
+  solve()
+source: "original"
+validation: "exact"

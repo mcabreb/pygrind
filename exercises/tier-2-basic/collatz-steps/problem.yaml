@@ -1,0 +1,19 @@
+id: "t2-016"
+title: "Collatz Steps"
+tier: 2
+topic: "math"
+description: "Read a positive integer N from stdin. Apply the Collatz sequence: if N is even, divide it by 2; if N is odd, multiply by 3 and add 1. Repeat until N becomes 1. Print the number of steps it took to reach 1."
+time_estimate: 5
+hint: "Use a while loop that runs while n != 1. Count each iteration. Use the modulo operator to check if n is even or odd."
+solution: |
+  n = int(input())
+  steps = 0
+  while n != 1:
+      if n % 2 == 0:
+          n //= 2
+      else:
+          n = 3 * n + 1
+      steps += 1
+  print(steps)
+source: "original"
+validation: "exact"

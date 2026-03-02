@@ -1,0 +1,12 @@
+id: "t2-017"
+title: "Power of Two Check"
+tier: 2
+topic: "math"
+description: "Read a positive integer N from stdin. Print \"yes\" if N is a power of two, or \"no\" otherwise."
+time_estimate: 5
+hint: "A number is a power of two if it has exactly one bit set. You can check this with: n > 0 and (n & (n - 1)) == 0. Alternatively, keep dividing by 2 and see if you reach 1."
+solution: |
+  n = int(input())
+  print("yes" if n > 0 and (n & (n - 1)) == 0 else "no")
+source: "original"
+validation: "exact"

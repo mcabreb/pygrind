@@ -1,0 +1,13 @@
+id: "t1-026"
+title: "Largest of Two"
+tier: 1
+topic: "conditionals"
+description: "Read two integers (one per line) and print the larger one. If they are equal, print that number."
+time_estimate: 2
+hint: "Use the built-in max() function or an if/else statement."
+solution: |
+  a = int(input())
+  b = int(input())
+  print(max(a, b))
+source: "original"
+validation: "exact"

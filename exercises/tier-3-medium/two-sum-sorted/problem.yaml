@@ -1,0 +1,23 @@
+id: "t3-030"
+title: "Two Sum in Sorted Array"
+tier: 3
+topic: "searching"
+description: "Given a sorted array of N integers and a target sum, find two numbers that add up to the target. Print their 1-based indices. There is exactly one solution, and you may not use the same element twice. Input: the first line contains N, the second line contains N space-separated integers in non-decreasing order, the third line contains the target sum. Output: print the two 1-based indices separated by a space."
+time_estimate: 8
+hint: "Use two pointers: one at the start and one at the end. If the sum is too small, move the left pointer right. If too large, move the right pointer left."
+solution: |
+  n = int(input())
+  nums = list(map(int, input().split()))
+  target = int(input())
+  left, right = 0, n - 1
+  while left < right:
+      s = nums[left] + nums[right]
+      if s == target:
+          print(left + 1, right + 1)
+          break
+      elif s < target:
+          left += 1
+      else:
+          right -= 1
+source: "original"
+validation: "exact"

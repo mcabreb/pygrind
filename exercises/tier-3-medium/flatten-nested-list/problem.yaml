@@ -1,0 +1,24 @@
+id: "t3-026"
+title: "Flatten Nested List"
+tier: 3
+topic: "data structures"
+description: "Given a nested list represented as a string, flatten it into a single list of integers. The input uses Python list syntax with square brackets and commas. Input: a single line containing a nested list (e.g., \"[1,[2,[3,4],5],6]\"). Output: print all integers in order, space-separated on a single line."
+time_estimate: 10
+hint: "Use a stack or recursion. One simple approach: iterate through the string, ignoring brackets and commas, and extract multi-digit numbers (including negative numbers) by tracking when you are reading digits."
+solution: |
+  s = input()
+  nums = []
+  i = 0
+  while i < len(s):
+      if s[i] == '-' or s[i].isdigit():
+          j = i
+          if s[i] == '-':
+              i += 1
+          while i < len(s) and s[i].isdigit():
+              i += 1
+          nums.append(int(s[j:i]))
+      else:
+          i += 1
+  print(" ".join(map(str, nums)))
+source: "original"
+validation: "exact"

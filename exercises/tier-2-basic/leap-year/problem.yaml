@@ -1,0 +1,19 @@
+id: "t2-029"
+title: "Leap Year Check"
+tier: 2
+topic: "logic"
+description: "Read an integer year from stdin. Print \"yes\" if the year is a leap year, or \"no\" otherwise. A year is a leap year if it is divisible by 4, except for years divisible by 100, which are not leap years unless they are also divisible by 400."
+time_estimate: 5
+hint: "Check divisibility by 400 first, then 100, then 4. A year is a leap year if divisible by 400, OR divisible by 4 but not by 100."
+solution: |
+  y = int(input())
+  if y % 400 == 0:
+      print("yes")
+  elif y % 100 == 0:
+      print("no")
+  elif y % 4 == 0:
+      print("yes")
+  else:
+      print("no")
+source: "original"
+validation: "exact"

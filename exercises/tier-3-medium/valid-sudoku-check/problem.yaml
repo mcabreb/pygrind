@@ -1,0 +1,32 @@
+id: "t3-008"
+title: "Valid Sudoku Check"
+tier: 3
+topic: "data structures"
+description: "Given a 9x9 Sudoku grid, check if the filled cells are valid. A valid board has no duplicate numbers (1-9) in any row, any column, or any of the nine 3x3 sub-boxes. Cells with 0 represent empty cells. Input: 9 lines each containing 9 space-separated integers (0-9). Output: print \"valid\" if the board is valid, \"invalid\" otherwise."
+time_estimate: 12
+hint: "Use sets to track seen numbers for each row, each column, and each 3x3 box. The box index for cell (r, c) is (r // 3) * 3 + (c // 3)."
+solution: |
+  grid = []
+  for _ in range(9):
+      grid.append(list(map(int, input().split())))
+  valid = True
+  rows = [set() for _ in range(9)]
+  cols = [set() for _ in range(9)]
+  boxes = [set() for _ in range(9)]
+  for r in range(9):
+      for c in range(9):
+          val = grid[r][c]
+          if val == 0:
+              continue
+          box_idx = (r // 3) * 3 + (c // 3)
+          if val in rows[r] or val in cols[c] or val in boxes[box_idx]:
+              valid = False
+              break
+          rows[r].add(val)
+          cols[c].add(val)
+          boxes[box_idx].add(val)
+      if not valid:
+          break
+  print("valid" if valid else "invalid")
+source: "original"
+validation: "exact"

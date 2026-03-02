@@ -1,0 +1,83 @@
+id: "t5-023"
+title: "Mo's Algorithm — Distinct Elements"
+tier: 5
+topic: "advanced algorithms"
+description: |
+  Given an array of N integers and Q queries, each query asks for the
+  number of distinct elements in a subarray [L, R] (1-indexed, inclusive).
+  Use Mo's algorithm for efficient offline processing.
+
+  Input format:
+    - Line 1: two space-separated integers N Q
+      (1 <= N <= 100000; 1 <= Q <= 100000)
+    - Line 2: N space-separated integers a_1, a_2, ..., a_N
+      (1 <= a_i <= 1000000)
+    - Next Q lines: two space-separated integers L R (1 <= L <= R <= N)
+
+  Output format:
+    - Q lines, each containing the number of distinct elements in [L, R].
+time_estimate: 25
+hint: "Sort queries by (L // sqrt(N), R). Maintain a frequency array and a count of distinct elements. Add/remove elements as the window [curL, curR] moves to [L, R]. This gives O((N + Q) * sqrt(N)) complexity."
+solution: |
+  import sys
+  import math
+
+  def solve():
+      data = sys.stdin.buffer.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      q = int(data[idx]); idx += 1
+      a = [int(data[idx + i]) for i in range(n)]
+      idx += n
+
+      block = max(1, int(math.sqrt(n)))
+      queries = []
+      for i in range(q):
+          l = int(data[idx]) - 1; idx += 1
+          r = int(data[idx]) - 1; idx += 1
+          queries.append((l, r, i))
+
+      queries.sort(key=lambda x: (x[0] // block, x[1] if (x[0] // block) % 2 == 0 else -x[1]))
+
+      freq = {}
+      distinct = 0
+      ans = [0] * q
+
+      cur_l = 0
+      cur_r = -1
+
+      def add(pos):
+          nonlocal distinct
+          val = a[pos]
+          freq[val] = freq.get(val, 0) + 1
+          if freq[val] == 1:
+              distinct += 1
+
+      def remove(pos):
+          nonlocal distinct
+          val = a[pos]
+          freq[val] -= 1
+          if freq[val] == 0:
+              distinct -= 1
+              del freq[val]
+
+      for l, r, qi in queries:
+          while cur_r < r:
+              cur_r += 1
+              add(cur_r)
+          while cur_l > l:
+              cur_l -= 1
+              add(cur_l)
+          while cur_r > r:
+              remove(cur_r)
+              cur_r -= 1
+          while cur_l < l:
+              remove(cur_l)
+              cur_l += 1
+          ans[qi] = distinct
+
+      sys.stdout.write('\n'.join(map(str, ans)) + '\n')
+
+  solve()
+source: "original"
+validation: "exact"

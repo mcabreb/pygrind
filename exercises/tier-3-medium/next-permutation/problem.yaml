@@ -1,0 +1,22 @@
+id: "t3-020"
+title: "Next Permutation"
+tier: 3
+topic: "algorithms"
+description: "Given a sequence of N integers, find the next lexicographically greater permutation. If the sequence is the last permutation (fully descending), return the first permutation (fully ascending). Input: the first line contains N, the second line contains N space-separated integers. Output: print the next permutation as space-separated integers."
+time_estimate: 12
+hint: "1) Find the largest index i such that a[i] < a[i+1]. If no such index exists, reverse the whole array. 2) Find the largest index j such that a[i] < a[j]. 3) Swap a[i] and a[j]. 4) Reverse the suffix starting at a[i+1]."
+solution: |
+  n = int(input())
+  a = list(map(int, input().split()))
+  i = n - 2
+  while i >= 0 and a[i] >= a[i + 1]:
+      i -= 1
+  if i >= 0:
+      j = n - 1
+      while a[j] <= a[i]:
+          j -= 1
+      a[i], a[j] = a[j], a[i]
+  a[i + 1:] = reversed(a[i + 1:])
+  print(" ".join(map(str, a)))
+source: "original"
+validation: "exact"

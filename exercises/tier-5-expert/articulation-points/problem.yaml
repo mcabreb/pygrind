@@ -1,0 +1,75 @@
+id: "t5-007"
+title: "Articulation Points"
+tier: 5
+topic: "graph theory"
+description: |
+  Given an undirected connected graph, find all articulation points (cut vertices).
+  An articulation point is a vertex whose removal disconnects the graph.
+
+  Input format:
+    - Line 1: two space-separated integers N M
+      (2 <= N <= 10000; 1 <= M <= 50000)
+    - Next M lines: two space-separated integers u v (1 <= u, v <= N)
+      representing an undirected edge.
+
+  Output format:
+    - Line 1: the number of articulation points.
+    - Line 2: the articulation points in sorted order, space-separated.
+      If there are no articulation points, output 0 on line 1 and an empty line.
+time_estimate: 22
+hint: "Use Tarjan's algorithm: perform a DFS, tracking discovery times and low values. A vertex u is an articulation point if (1) u is root of DFS tree and has two or more children, or (2) u is not root and has a child v such that low[v] >= disc[u]."
+solution: |
+  import sys
+  from collections import defaultdict
+  sys.setrecursionlimit(200000)
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      m = int(data[idx]); idx += 1
+
+      adj = defaultdict(list)
+      for _ in range(m):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          adj[u].append(v)
+          adj[v].append(u)
+
+      disc = [0] * (n + 1)
+      low = [0] * (n + 1)
+      visited = [False] * (n + 1)
+      parent = [-1] * (n + 1)
+      ap = set()
+      timer = [1]
+
+      def dfs(u):
+          visited[u] = True
+          disc[u] = low[u] = timer[0]
+          timer[0] += 1
+          children = 0
+          for v in adj[u]:
+              if not visited[v]:
+                  children += 1
+                  parent[v] = u
+                  dfs(v)
+                  low[u] = min(low[u], low[v])
+                  if parent[u] == -1 and children > 1:
+                      ap.add(u)
+                  if parent[u] != -1 and low[v] >= disc[u]:
+                      ap.add(u)
+              elif v != parent[u]:
+                  low[u] = min(low[u], disc[v])
+
+      dfs(1)
+
+      result = sorted(ap)
+      print(len(result))
+      if result:
+          print(' '.join(map(str, result)))
+      else:
+          print()
+
+  solve()
+source: "original"
+validation: "exact"

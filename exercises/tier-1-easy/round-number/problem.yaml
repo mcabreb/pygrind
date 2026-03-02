@@ -1,0 +1,12 @@
+id: "t1-025"
+title: "Round a Number"
+tier: 1
+topic: "math"
+description: "Read a decimal number (float) and print it rounded to the nearest integer."
+time_estimate: 2
+hint: "Use the built-in round() function and convert the result to int for clean output."
+solution: |
+  n = float(input())
+  print(round(n))
+source: "original"
+validation: "exact"

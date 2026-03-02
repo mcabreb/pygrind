@@ -1,0 +1,19 @@
+id: "t3-011"
+title: "Roman Numeral Converter"
+tier: 3
+topic: "strings"
+description: "Convert a Roman numeral string to its integer value. Input: a single line containing a valid Roman numeral (using I, V, X, L, C, D, M). Output: print the corresponding integer. Roman numeral rules: I=1, V=5, X=10, L=50, C=100, D=500, M=1000. When a smaller value appears before a larger value, it is subtracted (e.g., IV=4, IX=9)."
+time_estimate: 10
+hint: "Map each Roman character to its value. Iterate through the string: if the current value is less than the next value, subtract it; otherwise, add it."
+solution: |
+  s = input()
+  roman = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+  total = 0
+  for i in range(len(s)):
+      if i + 1 < len(s) and roman[s[i]] < roman[s[i + 1]]:
+          total -= roman[s[i]]
+      else:
+          total += roman[s[i]]
+  print(total)
+source: "original"
+validation: "exact"

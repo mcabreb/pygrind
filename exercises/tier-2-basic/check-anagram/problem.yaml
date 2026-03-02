@@ -1,0 +1,13 @@
+id: "t2-012"
+title: "Check Anagram"
+tier: 2
+topic: "strings"
+description: "Read two strings from stdin (one per line). Print \"yes\" if the two strings are anagrams of each other, or \"no\" otherwise. The comparison should be case-insensitive and should ignore spaces."
+time_estimate: 6
+hint: "Convert both strings to lowercase, remove spaces, then sort the characters and compare."
+solution: |
+  a = input().lower().replace(" ", "")
+  b = input().lower().replace(" ", "")
+  print("yes" if sorted(a) == sorted(b) else "no")
+source: "original"
+validation: "exact"

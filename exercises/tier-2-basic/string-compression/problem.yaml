@@ -1,0 +1,19 @@
+id: "t2-026"
+title: "String Compression"
+tier: 2
+topic: "strings"
+description: "Read a string from stdin. Remove all consecutive duplicate characters, keeping only the first occurrence of each consecutive group. For example, \"aabbbcddd\" becomes \"abcd\". Print the result."
+time_estimate: 5
+hint: "Iterate through the string and only add a character to the result if it differs from the previous character."
+solution: |
+  s = input()
+  if not s:
+      print("")
+  else:
+      result = [s[0]]
+      for c in s[1:]:
+          if c != result[-1]:
+              result.append(c)
+      print("".join(result))
+source: "original"
+validation: "exact"

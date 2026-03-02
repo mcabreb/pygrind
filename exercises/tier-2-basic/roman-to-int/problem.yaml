@@ -1,0 +1,19 @@
+id: "t2-025"
+title: "Roman to Integer"
+tier: 2
+topic: "strings"
+description: "Read a Roman numeral string from stdin (using characters I, V, X, L, C, D, M). Convert it to its integer value and print the result. The input will be a valid Roman numeral between 1 and 3999."
+time_estimate: 8
+hint: "Map each Roman character to its value. Scan left to right: if a character's value is less than the next character's value, subtract it; otherwise, add it."
+solution: |
+  s = input().strip()
+  roman = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+  total = 0
+  for i in range(len(s)):
+      if i + 1 < len(s) and roman[s[i]] < roman[s[i + 1]]:
+          total -= roman[s[i]]
+      else:
+          total += roman[s[i]]
+  print(total)
+source: "original"
+validation: "exact"

@@ -1,0 +1,40 @@
+id: "t4-014"
+title: "Longest Palindromic Substring"
+tier: 4
+topic: "dp"
+description: |
+  Given a string S, find the length of the longest palindromic substring.
+
+  Input format:
+    - Line 1: string S (1 <= len(S) <= 1000, lowercase English letters)
+
+  Output format:
+    - A single integer: the length of the longest palindromic substring.
+time_estimate: 15
+hint: "Expand around center. For each index i, try expanding both odd-length (center at i) and even-length (center between i and i+1) palindromes. Track the maximum length found."
+solution: |
+  def solve():
+      s = input().strip()
+      n = len(s)
+      if n == 0:
+          print(0)
+          return
+      best = 1
+      for i in range(n):
+          # odd length
+          lo, hi = i, i
+          while lo >= 0 and hi < n and s[lo] == s[hi]:
+              best = max(best, hi - lo + 1)
+              lo -= 1
+              hi += 1
+          # even length
+          lo, hi = i, i + 1
+          while lo >= 0 and hi < n and s[lo] == s[hi]:
+              best = max(best, hi - lo + 1)
+              lo -= 1
+              hi += 1
+      print(best)
+
+  solve()
+source: "original"
+validation: "exact"

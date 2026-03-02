@@ -1,0 +1,16 @@
+id: "t1-019"
+title: "Vowel Count"
+tier: 1
+topic: "strings"
+description: "Read a string and print the number of vowels (a, e, i, o, u) it contains. Count both uppercase and lowercase vowels."
+time_estimate: 3
+hint: "Convert the string to lowercase and check each character against 'aeiou'."
+solution: |
+  s = input().lower()
+  count = 0
+  for ch in s:
+      if ch in "aeiou":
+          count += 1
+  print(count)
+source: "original"
+validation: "exact"

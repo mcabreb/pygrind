@@ -1,0 +1,14 @@
+id: "t1-023"
+title: "Multiply Three Numbers"
+tier: 1
+topic: "math"
+description: "Read three integers (one per line) and print their product."
+time_estimate: 2
+hint: "Read the three numbers and multiply them together with the * operator."
+solution: |
+  a = int(input())
+  b = int(input())
+  c = int(input())
+  print(a * b * c)
+source: "original"
+validation: "exact"

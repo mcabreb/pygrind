@@ -1,0 +1,12 @@
+id: "t1-015"
+title: "Swap Case"
+tier: 1
+topic: "strings"
+description: "Read a string and print it with all uppercase letters converted to lowercase and all lowercase letters converted to uppercase."
+time_estimate: 2
+hint: "Use the .swapcase() string method."
+solution: |
+  s = input()
+  print(s.swapcase())
+source: "original"
+validation: "exact"

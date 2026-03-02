@@ -1,0 +1,15 @@
+id: "t2-015"
+title: "Fibonacci Nth"
+tier: 2
+topic: "math"
+description: "Read an integer N from stdin (0-indexed). Print the Nth Fibonacci number. The sequence starts with F(0) = 0, F(1) = 1, and each subsequent number is the sum of the two preceding ones."
+time_estimate: 5
+hint: "Use two variables to track the last two Fibonacci numbers and update them in a loop."
+solution: |
+  n = int(input())
+  a, b = 0, 1
+  for _ in range(n):
+      a, b = b, a + b
+  print(a)
+source: "original"
+validation: "exact"

@@ -1,0 +1,12 @@
+id: "t1-022"
+title: "Power of Two"
+tier: 1
+topic: "math"
+description: "Read a non-negative integer n and print 2 raised to the power of n."
+time_estimate: 2
+hint: "Use the ** operator: 2 ** n."
+solution: |
+  n = int(input())
+  print(2 ** n)
+source: "original"
+validation: "exact"

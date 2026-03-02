@@ -1,0 +1,24 @@
+id: "t3-014"
+title: "Merge Intervals"
+tier: 3
+topic: "algorithms"
+description: "Given a list of intervals, merge all overlapping intervals. Input: the first line contains N (the number of intervals), followed by N lines each containing two space-separated integers representing the start and end of an interval. Output: print the merged intervals, one per line as \"start end\", sorted by start time."
+time_estimate: 10
+hint: "Sort the intervals by their start time. Iterate through them, merging the current interval with the previous one if they overlap (i.e., the current start is less than or equal to the previous end)."
+solution: |
+  n = int(input())
+  intervals = []
+  for _ in range(n):
+      a, b = map(int, input().split())
+      intervals.append((a, b))
+  intervals.sort()
+  merged = [intervals[0]]
+  for start, end in intervals[1:]:
+      if start <= merged[-1][1]:
+          merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+      else:
+          merged.append((start, end))
+  for s, e in merged:
+      print(s, e)
+source: "original"
+validation: "exact"

@@ -1,0 +1,17 @@
+id: "t1-017"
+title: "Check Positive Negative Zero"
+tier: 1
+topic: "conditionals"
+description: "Read an integer. Print 'positive' if it is greater than zero, 'negative' if it is less than zero, or 'zero' if it equals zero."
+time_estimate: 2
+hint: "Use if/elif/else to compare the number against zero."
+solution: |
+  n = int(input())
+  if n > 0:
+      print("positive")
+  elif n < 0:
+      print("negative")
+  else:
+      print("zero")
+source: "original"
+validation: "exact"

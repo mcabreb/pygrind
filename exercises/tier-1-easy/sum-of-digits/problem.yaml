@@ -1,0 +1,15 @@
+id: "t1-028"
+title: "Sum of Digits"
+tier: 1
+topic: "math"
+description: "Read a non-negative integer and print the sum of its digits."
+time_estimate: 3
+hint: "Convert the number to a string, iterate over each character, convert each back to int, and sum them."
+solution: |
+  n = input().strip()
+  total = 0
+  for ch in n:
+      total += int(ch)
+  print(total)
+source: "original"
+validation: "exact"

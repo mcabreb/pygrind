@@ -1,0 +1,46 @@
+id: "t4-025"
+title: "Palindrome Partitioning (Min Cuts)"
+tier: 4
+topic: "dp"
+description: |
+  Given a string S, find the minimum number of cuts needed to partition S
+  such that every substring in the partition is a palindrome.
+
+  Input format:
+    - Line 1: string S (1 <= len(S) <= 1000, lowercase English letters)
+
+  Output format:
+    - A single integer: the minimum number of cuts.
+time_estimate: 18
+hint: "First precompute a 2D boolean table is_pal[i][j] for all substrings. Then use DP: dp[i] = min cuts for s[0..i]. For each i, if s[0..i] is palindrome, dp[i]=0. Otherwise dp[i] = min(dp[j-1]+1) for all j where s[j..i] is palindrome."
+solution: |
+  def solve():
+      s = input().strip()
+      n = len(s)
+      if n <= 1:
+          print(0)
+          return
+      # precompute palindrome table
+      is_pal = [[False] * n for _ in range(n)]
+      for i in range(n):
+          is_pal[i][i] = True
+      for i in range(n - 1):
+          is_pal[i][i+1] = (s[i] == s[i+1])
+      for length in range(3, n + 1):
+          for i in range(n - length + 1):
+              j = i + length - 1
+              is_pal[i][j] = (s[i] == s[j]) and is_pal[i+1][j-1]
+      dp = [0] * n
+      for i in range(n):
+          if is_pal[0][i]:
+              dp[i] = 0
+          else:
+              dp[i] = i  # worst case: cut each character
+              for j in range(1, i + 1):
+                  if is_pal[j][i]:
+                      dp[i] = min(dp[i], dp[j-1] + 1)
+      print(dp[n-1])
+
+  solve()
+source: "original"
+validation: "exact"

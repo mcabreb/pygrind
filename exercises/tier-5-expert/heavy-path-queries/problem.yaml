@@ -1,0 +1,160 @@
+id: "t5-028"
+title: "Heavy-Light Decomposition — Path Sum"
+tier: 5
+topic: "advanced data structures"
+description: |
+  Given a tree with N nodes, each having a value, support two operations:
+    - "1 u v": Query the sum of values on the path from node u to node v.
+    - "2 u x": Update the value of node u to x.
+
+  Input format:
+    - Line 1: two space-separated integers N Q
+      (1 <= N <= 50000; 1 <= Q <= 50000)
+    - Line 2: N space-separated integers v_1, ..., v_N (the initial values,
+      -10^9 <= v_i <= 10^9)
+    - Next N-1 lines: two space-separated integers u v (1 <= u, v <= N)
+      representing an edge in the tree.
+    - Next Q lines: either "1 u v" or "2 u x"
+      (1 <= u, v <= N; -10^9 <= x <= 10^9)
+    The tree is rooted at node 1.
+
+  Output format:
+    - For each type-1 query, output the path sum on a separate line.
+time_estimate: 30
+hint: "Decompose the tree into heavy paths using HLD. Map nodes to a flat array via Euler tour following heavy edges first. Use a segment tree on the flat array. For path queries, repeatedly query the chain of the deeper node and move up to the chain's parent until both nodes are on the same chain."
+solution: |
+  import sys
+  sys.setrecursionlimit(200000)
+
+  def solve():
+      data = sys.stdin.buffer.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      q = int(data[idx]); idx += 1
+      val = [int(data[idx + i]) for i in range(n)]
+      idx += n
+
+      adj = [[] for _ in range(n)]
+      for _ in range(n - 1):
+          u = int(data[idx]) - 1; idx += 1
+          v = int(data[idx]) - 1; idx += 1
+          adj[u].append(v)
+          adj[v].append(u)
+
+      parent = [-1] * n
+      depth = [0] * n
+      subtree = [1] * n
+      heavy = [-1] * n
+
+      stack = [(0, False)]
+      order = []
+      while stack:
+          node, processed = stack.pop()
+          if processed:
+              order.append(node)
+              best = -1
+              best_size = 0
+              for child in adj[node]:
+                  if child == parent[node]:
+                      continue
+                  subtree[node] += subtree[child]
+                  if subtree[child] > best_size:
+                      best_size = subtree[child]
+                      best = child
+              heavy[node] = best
+              continue
+          stack.append((node, True))
+          for child in adj[node]:
+              if child == parent[node]:
+                  continue
+              parent[child] = node
+              depth[child] = depth[node] + 1
+              stack.append((child, False))
+
+      head = [0] * n
+      pos = [0] * n
+      cur_pos = [0]
+
+      stack2 = [(0, 0)]
+      while stack2:
+          node, h = stack2.pop()
+          head[node] = h
+          pos[node] = cur_pos[0]
+          cur_pos[0] += 1
+          children = []
+          for child in adj[node]:
+              if child == parent[node]:
+                  continue
+              if child != heavy[node]:
+                  children.append(child)
+          for child in reversed(children):
+              stack2.append((child, child))
+          if heavy[node] != -1:
+              stack2.append((heavy[node], h))
+
+      flat = [0] * n
+      for i in range(n):
+          flat[pos[i]] = val[i]
+
+      tree = [0] * (4 * n)
+
+      def build(nd, s, e):
+          if s == e:
+              tree[nd] = flat[s]
+              return
+          mid = (s + e) // 2
+          build(2*nd, s, mid)
+          build(2*nd+1, mid+1, e)
+          tree[nd] = tree[2*nd] + tree[2*nd+1]
+
+      def update(nd, s, e, p, v):
+          if s == e:
+              tree[nd] = v
+              return
+          mid = (s + e) // 2
+          if p <= mid:
+              update(2*nd, s, mid, p, v)
+          else:
+              update(2*nd+1, mid+1, e, p, v)
+          tree[nd] = tree[2*nd] + tree[2*nd+1]
+
+      def query(nd, s, e, l, r):
+          if r < s or e < l:
+              return 0
+          if l <= s and e <= r:
+              return tree[nd]
+          mid = (s + e) // 2
+          return query(2*nd, s, mid, l, r) + query(2*nd+1, mid+1, e, l, r)
+
+      if n > 0:
+          build(1, 0, n - 1)
+
+      def path_query(u, v):
+          total = 0
+          while head[u] != head[v]:
+              if depth[head[u]] < depth[head[v]]:
+                  u, v = v, u
+              total += query(1, 0, n - 1, pos[head[u]], pos[u])
+              u = parent[head[u]]
+          if depth[u] > depth[v]:
+              u, v = v, u
+          total += query(1, 0, n - 1, pos[u], pos[v])
+          return total
+
+      out = []
+      for _ in range(q):
+          op = int(data[idx]); idx += 1
+          if op == 1:
+              u = int(data[idx]) - 1; idx += 1
+              v = int(data[idx]) - 1; idx += 1
+              out.append(str(path_query(u, v)))
+          else:
+              u = int(data[idx]) - 1; idx += 1
+              x = int(data[idx]); idx += 1
+              update(1, 0, n - 1, pos[u], x)
+
+      sys.stdout.write('\n'.join(out) + '\n')
+
+  solve()
+source: "original"
+validation: "exact"

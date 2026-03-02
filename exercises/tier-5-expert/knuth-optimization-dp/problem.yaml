@@ -1,0 +1,64 @@
+id: "t5-026"
+title: "Optimal Binary Search Tree (Knuth's Optimization)"
+tier: 5
+topic: "dynamic programming"
+description: |
+  Given N keys with known search frequencies, construct an optimal binary
+  search tree that minimizes the total search cost. The cost of accessing
+  a key at depth d (root is depth 1) is d * frequency.
+
+  Input format:
+    - Line 1: an integer N (1 <= N <= 500)
+    - Line 2: N space-separated integers f_1, f_2, ..., f_N
+      representing the search frequency of each key.
+      Keys are numbered 1 to N in sorted order.
+      (1 <= f_i <= 10000)
+
+  Output format:
+    - A single integer: the minimum total search cost.
+time_estimate: 25
+hint: "Use interval DP: dp[i][j] = minimum cost for keys i..j. The cost function is sum(f[i..j]) + min over k in [i,j] of dp[i][k-1] + dp[k+1][j]. Use Knuth's optimization: the optimal root for [i,j] lies between the optimal roots of [i,j-1] and [i+1,j], reducing O(N^3) to O(N^2)."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      freq = [int(data[idx + i]) for i in range(n)]
+      idx += n
+
+      prefix = [0] * (n + 1)
+      for i in range(n):
+          prefix[i + 1] = prefix[i] + freq[i]
+
+      def range_sum(i, j):
+          return prefix[j + 1] - prefix[i]
+
+      INF = float('inf')
+      dp = [[0] * n for _ in range(n)]
+      opt = [[0] * n for _ in range(n)]
+
+      for i in range(n):
+          dp[i][i] = freq[i]
+          opt[i][i] = i
+
+      for length in range(2, n + 1):
+          for i in range(n - length + 1):
+              j = i + length - 1
+              dp[i][j] = INF
+              lo = opt[i][j - 1] if j - 1 >= i else i
+              hi = opt[i + 1][j] if i + 1 <= j else j
+              for k in range(lo, hi + 1):
+                  left = dp[i][k - 1] if k > i else 0
+                  right = dp[k + 1][j] if k < j else 0
+                  cost = left + right + range_sum(i, j)
+                  if cost < dp[i][j]:
+                      dp[i][j] = cost
+                      opt[i][j] = k
+
+      print(dp[0][n - 1])
+
+  solve()
+source: "original"
+validation: "exact"

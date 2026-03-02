@@ -1,0 +1,49 @@
+id: "t4-026"
+title: "Minimum Jumps to End"
+tier: 4
+topic: "dp"
+description: |
+  Given an array of N non-negative integers where each element represents
+  the maximum jump length from that position, find the minimum number of
+  jumps to reach the last index from the first index.
+
+  Input format:
+    - Line 1: integer N (1 <= N <= 100000)
+    - Line 2: N space-separated non-negative integers
+
+  Output format:
+    - A single integer: the minimum number of jumps.
+    - If it is impossible to reach the end, print -1.
+time_estimate: 15
+hint: "Use a greedy approach: track the farthest you can reach, the end of the current jump range, and count jumps. When you pass the current range end, increment jumps and extend the range to the farthest point seen."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      n = int(data[0])
+      nums = [int(data[i+1]) for i in range(n)]
+      if n <= 1:
+          print(0)
+          return
+      if nums[0] == 0:
+          print(-1)
+          return
+      jumps = 0
+      cur_end = 0
+      farthest = 0
+      for i in range(n - 1):
+          farthest = max(farthest, i + nums[i])
+          if i == cur_end:
+              jumps += 1
+              cur_end = farthest
+              if cur_end >= n - 1:
+                  break
+      if cur_end < n - 1:
+          print(-1)
+      else:
+          print(jumps)
+
+  solve()
+source: "original"
+validation: "exact"

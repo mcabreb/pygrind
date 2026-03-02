@@ -1,0 +1,17 @@
+id: "t3-028"
+title: "Frequency Sort"
+tier: 3
+topic: "sorting"
+description: "Sort an array of integers by frequency (most frequent first). If two elements have the same frequency, the smaller number comes first. Input: the first line contains N, the second line contains N space-separated integers. Output: print the sorted array as space-separated integers on a single line."
+time_estimate: 10
+hint: "Count the frequency of each element using a dictionary. Sort the array using a custom key: primary key is negative frequency (for descending), secondary key is the value itself (for ascending)."
+solution: |
+  from collections import Counter
+
+  n = int(input())
+  arr = list(map(int, input().split()))
+  freq = Counter(arr)
+  arr.sort(key=lambda x: (-freq[x], x))
+  print(" ".join(map(str, arr)))
+source: "original"
+validation: "exact"

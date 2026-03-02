@@ -1,0 +1,13 @@
+id: "t1-013"
+title: "Rectangle Area"
+tier: 1
+topic: "math"
+description: "Read the width and height of a rectangle (two integers, one per line) and print its area."
+time_estimate: 2
+hint: "Area = width * height."
+solution: |
+  w = int(input())
+  h = int(input())
+  print(w * h)
+source: "original"
+validation: "exact"

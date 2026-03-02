@@ -1,0 +1,14 @@
+id: "t1-011"
+title: "Minimum of Three"
+tier: 1
+topic: "math"
+description: "Read three integers (one per line) and print the smallest one."
+time_estimate: 2
+hint: "Use the built-in min() function with all three values."
+solution: |
+  a = int(input())
+  b = int(input())
+  c = int(input())
+  print(min(a, b, c))
+source: "original"
+validation: "exact"

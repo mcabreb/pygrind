@@ -1,0 +1,70 @@
+id: "t5-024"
+title: "Sqrt Decomposition — Range Sum with Updates"
+tier: 5
+topic: "advanced data structures"
+description: |
+  Given an array of N integers, process Q operations:
+    - "1 i x": Update the value at position i (1-indexed) to x.
+    - "2 l r": Query the sum of elements in the range [l, r] (1-indexed, inclusive).
+
+  Input format:
+    - Line 1: two space-separated integers N Q
+      (1 <= N <= 100000; 1 <= Q <= 100000)
+    - Line 2: N space-separated integers a_1, ..., a_N (-10^9 <= a_i <= 10^9)
+    - Next Q lines: either "1 i x" or "2 l r"
+      (1 <= i <= N; -10^9 <= x <= 10^9; 1 <= l <= r <= N)
+
+  Output format:
+    - For each type-2 query, output the sum on a separate line.
+time_estimate: 20
+hint: "Divide the array into blocks of size sqrt(N). Maintain block sums. For updates, modify the element and update the block sum. For queries, iterate over partial blocks at the endpoints and add full block sums in between."
+solution: |
+  import sys
+  import math
+
+  def solve():
+      data = sys.stdin.buffer.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      q = int(data[idx]); idx += 1
+      a = [int(data[idx + i]) for i in range(n)]
+      idx += n
+
+      block = max(1, int(math.sqrt(n)))
+      num_blocks = (n + block - 1) // block
+      block_sum = [0] * num_blocks
+
+      for i in range(n):
+          block_sum[i // block] += a[i]
+
+      out = []
+      for _ in range(q):
+          op = int(data[idx]); idx += 1
+          if op == 1:
+              i = int(data[idx]) - 1; idx += 1
+              x = int(data[idx]); idx += 1
+              block_sum[i // block] += x - a[i]
+              a[i] = x
+          else:
+              l = int(data[idx]) - 1; idx += 1
+              r = int(data[idx]) - 1; idx += 1
+              total = 0
+              bl = l // block
+              br = r // block
+              if bl == br:
+                  for i in range(l, r + 1):
+                      total += a[i]
+              else:
+                  for i in range(l, (bl + 1) * block):
+                      total += a[i]
+                  for b in range(bl + 1, br):
+                      total += block_sum[b]
+                  for i in range(br * block, r + 1):
+                      total += a[i]
+              out.append(str(total))
+
+      sys.stdout.write('\n'.join(out) + '\n')
+
+  solve()
+source: "original"
+validation: "exact"

@@ -1,0 +1,12 @@
+id: "t2-023"
+title: "Binary to Decimal"
+tier: 2
+topic: "math"
+description: "Read a binary number (a string of 0s and 1s) from stdin. Print its decimal (base 10) equivalent."
+time_estimate: 5
+hint: "You can use int(s, 2) to convert a binary string to an integer. Alternatively, iterate through the digits and compute the value manually."
+solution: |
+  s = input().strip()
+  print(int(s, 2))
+source: "original"
+validation: "exact"

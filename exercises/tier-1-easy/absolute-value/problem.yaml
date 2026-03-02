@@ -1,0 +1,12 @@
+id: "t1-010"
+title: "Absolute Value"
+tier: 1
+topic: "math"
+description: "Read an integer and print its absolute value."
+time_estimate: 2
+hint: "Use the built-in abs() function."
+solution: |
+  n = int(input())
+  print(abs(n))
+source: "original"
+validation: "exact"

@@ -1,0 +1,100 @@
+id: "t5-008"
+title: "Eulerian Path"
+tier: 5
+topic: "graph theory"
+description: |
+  Given a directed graph, find an Eulerian path that visits every edge
+  exactly once. If multiple Eulerian paths exist, output the lexicographically
+  smallest one. If no Eulerian path exists, output "IMPOSSIBLE".
+
+  An Eulerian path exists in a directed graph if and only if:
+  - The graph is connected (considering only vertices with nonzero degree).
+  - At most one vertex has out_degree - in_degree = 1 (start vertex).
+  - At most one vertex has in_degree - out_degree = 1 (end vertex).
+  - All other vertices have equal in-degree and out-degree.
+
+  Input format:
+    - Line 1: two space-separated integers N M
+      (1 <= N <= 1000; 0 <= M <= 5000)
+    - Next M lines: two space-separated integers u v (1 <= u, v <= N)
+      representing a directed edge from u to v.
+
+  Output format:
+    - If an Eulerian path exists, output the vertices in order on a single
+      line, space-separated (M+1 values).
+    - Otherwise, output "IMPOSSIBLE".
+time_estimate: 25
+hint: "Use Hierholzer's algorithm. First check the degree conditions. Sort adjacency lists for lexicographic order. Start from the vertex with out_degree - in_degree = 1, or vertex 1 if all degrees are balanced. Use a stack-based approach to build the path."
+solution: |
+  import sys
+  from collections import defaultdict
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      m = int(data[idx]); idx += 1
+
+      adj = defaultdict(list)
+      in_deg = [0] * (n + 1)
+      out_deg = [0] * (n + 1)
+
+      for _ in range(m):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          adj[u].append(v)
+          out_deg[u] += 1
+          in_deg[v] += 1
+
+      if m == 0:
+          print(1)
+          return
+
+      start_nodes = 0
+      end_nodes = 0
+      start = -1
+      for i in range(1, n + 1):
+          diff = out_deg[i] - in_deg[i]
+          if diff == 1:
+              start_nodes += 1
+              start = i
+          elif diff == -1:
+              end_nodes += 1
+          elif diff != 0:
+              print("IMPOSSIBLE")
+              return
+
+      if not (start_nodes == 0 and end_nodes == 0) and not (start_nodes == 1 and end_nodes == 1):
+          print("IMPOSSIBLE")
+          return
+
+      if start == -1:
+          for i in range(1, n + 1):
+              if out_deg[i] > 0:
+                  start = i
+                  break
+
+      for i in range(1, n + 1):
+          adj[i].sort(reverse=True)
+
+      stack = [start]
+      path = []
+      while stack:
+          v = stack[-1]
+          if adj[v]:
+              u = adj[v].pop()
+              stack.append(u)
+          else:
+              path.append(stack.pop())
+
+      path.reverse()
+
+      if len(path) != m + 1:
+          print("IMPOSSIBLE")
+          return
+
+      print(' '.join(map(str, path)))
+
+  solve()
+source: "original"
+validation: "exact"

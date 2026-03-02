@@ -1,0 +1,57 @@
+id: "t5-013"
+title: "Assignment Problem (Bitmask DP)"
+tier: 5
+topic: "dynamic programming"
+description: |
+  There are N workers and N jobs. Each worker can be assigned to exactly
+  one job, and each job must be assigned to exactly one worker. The cost
+  of assigning worker i to job j is given by cost[i][j]. Find the minimum
+  total cost to assign all workers to all jobs.
+
+  Input format:
+    - Line 1: an integer N (1 <= N <= 20)
+    - Next N lines: N space-separated integers representing the cost matrix.
+      cost[i][j] is the cost of assigning worker i to job j.
+      (1 <= cost[i][j] <= 10000)
+
+  Output format:
+    - A single integer: the minimum total cost of the optimal assignment.
+time_estimate: 22
+hint: "Use bitmask DP where dp[mask] represents the minimum cost of assigning the first popcount(mask) workers to the jobs indicated by the set bits in mask. For each state, assign the next worker to each available job."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      cost = []
+      for i in range(n):
+          row = []
+          for j in range(n):
+              row.append(int(data[idx])); idx += 1
+          cost.append(row)
+
+      INF = float('inf')
+      dp = [INF] * (1 << n)
+      dp[0] = 0
+
+      for mask in range(1 << n):
+          if dp[mask] == INF:
+              continue
+          worker = bin(mask).count('1')
+          if worker >= n:
+              continue
+          for job in range(n):
+              if mask & (1 << job):
+                  continue
+              new_mask = mask | (1 << job)
+              val = dp[mask] + cost[worker][job]
+              if val < dp[new_mask]:
+                  dp[new_mask] = val
+
+      print(dp[(1 << n) - 1])
+
+  solve()
+source: "original"
+validation: "exact"

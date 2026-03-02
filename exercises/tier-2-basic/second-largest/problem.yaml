@@ -1,0 +1,14 @@
+id: "t2-009"
+title: "Second Largest"
+tier: 2
+topic: "lists"
+description: "Read an integer N from stdin, then read N integers (one per line). Print the second largest unique value. It is guaranteed that there are at least two distinct values."
+time_estimate: 5
+hint: "Convert the list to a set to get unique values, sort them, and pick the second-to-last element."
+solution: |
+  n = int(input())
+  nums = [int(input()) for _ in range(n)]
+  unique = sorted(set(nums))
+  print(unique[-2])
+source: "original"
+validation: "exact"

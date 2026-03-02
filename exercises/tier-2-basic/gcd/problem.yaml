@@ -1,0 +1,15 @@
+id: "t2-014"
+title: "Greatest Common Divisor"
+tier: 2
+topic: "math"
+description: "Read two positive integers from stdin (one per line). Print their greatest common divisor (GCD) using the Euclidean algorithm."
+time_estimate: 5
+hint: "The Euclidean algorithm: repeatedly replace the larger number with the remainder of dividing the larger by the smaller, until the remainder is 0. The last non-zero value is the GCD."
+solution: |
+  a = int(input())
+  b = int(input())
+  while b:
+      a, b = b, a % b
+  print(a)
+source: "original"
+validation: "exact"

@@ -1,0 +1,15 @@
+id: "t1-029"
+title: "Is Palindrome"
+tier: 1
+topic: "strings"
+description: "Read a string and print 'yes' if it is a palindrome (reads the same forwards and backwards), or 'no' otherwise. The check is case-sensitive."
+time_estimate: 3
+hint: "Compare the string to its reverse using slicing: s == s[::-1]."
+solution: |
+  s = input()
+  if s == s[::-1]:
+      print("yes")
+  else:
+      print("no")
+source: "original"
+validation: "exact"

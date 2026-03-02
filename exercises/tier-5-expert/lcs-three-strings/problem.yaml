@@ -1,0 +1,45 @@
+id: "t5-025"
+title: "LCS of Three Strings"
+tier: 5
+topic: "dynamic programming"
+description: |
+  Given three strings, find the length of their longest common subsequence
+  (LCS). A subsequence is a sequence that can be derived from the string
+  by deleting some (or no) characters without changing the order of the
+  remaining characters.
+
+  Input format:
+    - Line 1: a string S1 (1 <= |S1| <= 100), lowercase letters
+    - Line 2: a string S2 (1 <= |S2| <= 100), lowercase letters
+    - Line 3: a string S3 (1 <= |S3| <= 100), lowercase letters
+
+  Output format:
+    - A single integer: the length of the longest common subsequence
+      of S1, S2, and S3.
+time_estimate: 20
+hint: "Extend the classic 2-string LCS to 3 dimensions. Use dp[i][j][k] where i, j, k are positions in S1, S2, S3 respectively. If S1[i-1] == S2[j-1] == S3[k-1], then dp[i][j][k] = dp[i-1][j-1][k-1] + 1. Otherwise take the max of dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1]."
+solution: |
+  import sys
+
+  def solve():
+      lines = sys.stdin.read().strip().split('\n')
+      s1 = lines[0]
+      s2 = lines[1]
+      s3 = lines[2]
+      a, b, c = len(s1), len(s2), len(s3)
+
+      dp = [[[0] * (c + 1) for _ in range(b + 1)] for _ in range(a + 1)]
+
+      for i in range(1, a + 1):
+          for j in range(1, b + 1):
+              for k in range(1, c + 1):
+                  if s1[i-1] == s2[j-1] == s3[k-1]:
+                      dp[i][j][k] = dp[i-1][j-1][k-1] + 1
+                  else:
+                      dp[i][j][k] = max(dp[i-1][j][k], dp[i][j-1][k], dp[i][j][k-1])
+
+      print(dp[a][b][c])
+
+  solve()
+source: "original"
+validation: "exact"

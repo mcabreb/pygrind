@@ -1,0 +1,12 @@
+id: "t2-021"
+title: "Sort Digits"
+tier: 2
+topic: "sorting"
+description: "Read a non-negative integer from stdin. Print the integer with its digits sorted in ascending order. Leading zeros should be preserved (e.g., sorting 3021 gives 0123)."
+time_estimate: 5
+hint: "Convert the number to a string, sort the characters, then join them back together."
+solution: |
+  s = input().strip()
+  print("".join(sorted(s)))
+source: "original"
+validation: "exact"

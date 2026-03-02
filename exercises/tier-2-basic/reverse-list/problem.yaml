@@ -1,0 +1,14 @@
+id: "t2-027"
+title: "Reverse List"
+tier: 2
+topic: "lists"
+description: "Read an integer N from the first line, then read N integers (one per line). Print the integers in reverse order, one per line."
+time_estimate: 5
+hint: "Store all the numbers in a list, then reverse it using slicing [::-1] or the reverse() method."
+solution: |
+  n = int(input())
+  nums = [int(input()) for _ in range(n)]
+  for x in reversed(nums):
+      print(x)
+source: "original"
+validation: "exact"

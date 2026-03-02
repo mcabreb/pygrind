@@ -1,0 +1,21 @@
+id: "t3-015"
+title: "Best Time to Buy and Sell Stock"
+tier: 3
+topic: "algorithms"
+description: "Given an array of stock prices over N days, find the maximum profit from a single buy and sell transaction (buy before sell). If no profit is possible, print 0. Input: the first line contains N, the second line contains N space-separated integers representing daily prices. Output: print the maximum profit."
+time_estimate: 8
+hint: "Track the minimum price seen so far as you iterate. At each day, calculate the profit if you sold today (current price minus minimum so far) and update the maximum profit."
+solution: |
+  n = int(input())
+  prices = list(map(int, input().split()))
+  min_price = prices[0]
+  max_profit = 0
+  for price in prices[1:]:
+      profit = price - min_price
+      if profit > max_profit:
+          max_profit = profit
+      if price < min_price:
+          min_price = price
+  print(max_profit)
+source: "original"
+validation: "exact"

@@ -1,0 +1,19 @@
+id: "t1-009"
+title: "FizzBuzz Single"
+tier: 1
+topic: "conditionals"
+description: "Read a single integer. Print 'FizzBuzz' if it is divisible by both 3 and 5, 'Fizz' if divisible by 3 only, 'Buzz' if divisible by 5 only, or the number itself otherwise."
+time_estimate: 3
+hint: "Check divisibility by 15 first (both 3 and 5), then by 3, then by 5."
+solution: |
+  n = int(input())
+  if n % 15 == 0:
+      print("FizzBuzz")
+  elif n % 3 == 0:
+      print("Fizz")
+  elif n % 5 == 0:
+      print("Buzz")
+  else:
+      print(n)
+source: "original"
+validation: "exact"

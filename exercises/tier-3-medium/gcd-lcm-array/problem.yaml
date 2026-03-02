@@ -1,0 +1,27 @@
+id: "t3-027"
+title: "GCD and LCM of Array"
+tier: 3
+topic: "math"
+description: "Given an array of N positive integers, compute the GCD (Greatest Common Divisor) and LCM (Least Common Multiple) of all the numbers. Input: the first line contains N, the second line contains N space-separated positive integers. Output: print two lines - the first line is the GCD, the second line is the LCM."
+time_estimate: 10
+hint: "Use the Euclidean algorithm for GCD of two numbers: gcd(a, b) = gcd(b, a % b). For LCM of two numbers: lcm(a, b) = a * b // gcd(a, b). Apply these iteratively across the array."
+solution: |
+  def gcd(a, b):
+      while b:
+          a, b = b, a % b
+      return a
+
+  def lcm(a, b):
+      return a * b // gcd(a, b)
+
+  n = int(input())
+  nums = list(map(int, input().split()))
+  g = nums[0]
+  l = nums[0]
+  for x in nums[1:]:
+      g = gcd(g, x)
+      l = lcm(l, x)
+  print(g)
+  print(l)
+source: "original"
+validation: "exact"

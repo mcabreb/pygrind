@@ -1,0 +1,13 @@
+id: "t2-018"
+title: "Pangram Check"
+tier: 2
+topic: "strings"
+description: "Read a single line of text from stdin. Print \"yes\" if the text is a pangram (contains every letter of the English alphabet at least once), or \"no\" otherwise. The check should be case-insensitive."
+time_estimate: 6
+hint: "Convert the string to lowercase, extract only alphabetic characters into a set, and check if the set has 26 elements."
+solution: |
+  s = input().lower()
+  letters = set(c for c in s if c.isalpha())
+  print("yes" if len(letters) == 26 else "no")
+source: "original"
+validation: "exact"

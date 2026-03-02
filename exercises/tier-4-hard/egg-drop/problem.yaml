@@ -1,0 +1,52 @@
+id: "t4-021"
+title: "Egg Drop Problem"
+tier: 4
+topic: "dp"
+description: |
+  You have K identical eggs and a building with N floors. You need to find
+  the minimum number of trials (drops) required in the worst case to
+  determine the critical floor (the highest floor from which an egg can be
+  dropped without breaking).
+
+  Input format:
+    - Line 1: two integers K N (1 <= K <= 100, 1 <= N <= 1000)
+
+  Output format:
+    - A single integer: the minimum number of trials in the worst case.
+time_estimate: 18
+hint: "Use DP where dp[k][n] = min trials with k eggs and n floors. For each floor x, if egg breaks try below (dp[k-1][x-1]), if not try above (dp[k][n-x]). Take the max of both (worst case), minimize over all x. Optimize with binary search on x."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      K = int(data[0])
+      N = int(data[1])
+      # dp[k][n] = min trials with k eggs, n floors
+      dp = [[0] * (N + 1) for _ in range(K + 1)]
+      for n in range(1, N + 1):
+          dp[1][n] = n
+      for k in range(1, K + 1):
+          dp[k][0] = 0
+          dp[k][1] = 1
+      for k in range(2, K + 1):
+          for n in range(2, N + 1):
+              dp[k][n] = float('inf')
+              lo, hi = 1, n
+              while lo <= hi:
+                  mid = (lo + hi) // 2
+                  breaks = dp[k-1][mid-1]
+                  survives = dp[k][n-mid]
+                  worst = 1 + max(breaks, survives)
+                  dp[k][n] = min(dp[k][n], worst)
+                  if breaks < survives:
+                      lo = mid + 1
+                  elif breaks > survives:
+                      hi = mid - 1
+                  else:
+                      break
+      print(dp[K][N])
+
+  solve()
+source: "original"
+validation: "exact"

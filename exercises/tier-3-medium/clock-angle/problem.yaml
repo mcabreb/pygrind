@@ -1,0 +1,20 @@
+id: "t3-016"
+title: "Clock Angle"
+tier: 3
+topic: "math"
+description: "Given a time in hours and minutes, calculate the smaller angle (in degrees) between the hour and minute hands of a 12-hour analog clock. Input: a single line with two space-separated integers H and M (0 <= H <= 23, 0 <= M <= 59). If H >= 12, treat it as H - 12. Output: print the angle as a number. If the result is a whole number, print it as an integer; otherwise print it with one decimal place."
+time_estimate: 10
+hint: "The minute hand moves 6 degrees per minute. The hour hand moves 0.5 degrees per minute (30 degrees per hour plus 0.5 per minute). Find the absolute difference and take the minimum with 360 minus the difference."
+solution: |
+  h, m = map(int, input().split())
+  h = h % 12
+  hour_angle = h * 30 + m * 0.5
+  minute_angle = m * 6
+  diff = abs(hour_angle - minute_angle)
+  angle = min(diff, 360 - diff)
+  if angle == int(angle):
+      print(int(angle))
+  else:
+      print(f"{angle:.1f}")
+source: "original"
+validation: "exact"

@@ -1,0 +1,44 @@
+id: "t4-007"
+title: "Edit Distance"
+tier: 4
+topic: "dp"
+description: |
+  Given two strings, find the minimum number of operations required to convert
+  the first string into the second. The allowed operations are:
+    - Insert a character
+    - Delete a character
+    - Replace a character
+  Each operation costs 1.
+
+  Input format:
+    - Line 1: string s1 (1 <= len(s1) <= 1000)
+    - Line 2: string s2 (1 <= len(s2) <= 1000)
+  Strings contain only lowercase English letters.
+
+  Output format:
+    - A single integer: the minimum edit distance.
+time_estimate: 15
+hint: "Use a 2D DP table where dp[i][j] is the edit distance between s1[:i] and s2[:j]. If characters match, dp[i][j] = dp[i-1][j-1]. Otherwise, take 1 + min of insert, delete, replace."
+solution: |
+  import sys
+
+  def solve():
+      s1 = input().strip()
+      s2 = input().strip()
+      m, n = len(s1), len(s2)
+      dp = [[0] * (n + 1) for _ in range(m + 1)]
+      for i in range(m + 1):
+          dp[i][0] = i
+      for j in range(n + 1):
+          dp[0][j] = j
+      for i in range(1, m + 1):
+          for j in range(1, n + 1):
+              if s1[i-1] == s2[j-1]:
+                  dp[i][j] = dp[i-1][j-1]
+              else:
+                  dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+      print(dp[m][n])
+
+  solve()
+source: "original"
+validation: "exact"

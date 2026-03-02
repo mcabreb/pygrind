@@ -1,0 +1,60 @@
+id: "t5-014"
+title: "Meet in the Middle — Subset Sum"
+tier: 5
+topic: "advanced algorithms"
+description: |
+  Given a set of N integers and a target sum S, determine the number of
+  subsets (possibly empty) whose elements sum to exactly S.
+
+  Input format:
+    - Line 1: two space-separated integers N S (1 <= N <= 40, |S| <= 10^15)
+    - Line 2: N space-separated integers a_1, a_2, ..., a_N
+      (-10^9 <= a_i <= 10^9)
+
+  Output format:
+    - A single integer: the number of subsets that sum to S.
+time_estimate: 25
+hint: "Split the array into two halves. Enumerate all 2^(N/2) subset sums for each half. Sort one half's sums and for each sum x in the other half, binary search for (S - x) to count matches."
+solution: |
+  import sys
+  from bisect import bisect_left, bisect_right
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      s = int(data[idx]); idx += 1
+      a = []
+      for i in range(n):
+          a.append(int(data[idx])); idx += 1
+
+      half = n // 2
+      left = a[:half]
+      right = a[half:]
+
+      def get_sums(arr):
+          sums = [0]
+          for x in arr:
+              new_sums = []
+              for s in sums:
+                  new_sums.append(s)
+                  new_sums.append(s + x)
+              sums = new_sums
+          return sums
+
+      left_sums = get_sums(left)
+      right_sums = get_sums(right)
+      right_sums.sort()
+
+      count = 0
+      for ls in left_sums:
+          target = s - ls
+          lo = bisect_left(right_sums, target)
+          hi = bisect_right(right_sums, target)
+          count += hi - lo
+
+      print(count)
+
+  solve()
+source: "original"
+validation: "exact"

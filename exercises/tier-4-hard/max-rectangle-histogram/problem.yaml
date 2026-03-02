@@ -1,0 +1,38 @@
+id: "t4-024"
+title: "Largest Rectangle in Histogram"
+tier: 4
+topic: "data structures"
+description: |
+  Given N non-negative integers representing the heights of bars in a
+  histogram where each bar has width 1, find the area of the largest
+  rectangle that fits entirely within the histogram.
+
+  Input format:
+    - Line 1: integer N (1 <= N <= 100000)
+    - Line 2: N space-separated non-negative integers (heights, each <= 10^9)
+
+  Output format:
+    - A single integer: the area of the largest rectangle.
+time_estimate: 18
+hint: "Use a stack-based approach. Maintain a stack of indices with increasing heights. When a shorter bar is encountered, pop and calculate the area using the popped bar's height and the width determined by the stack."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      n = int(data[0])
+      heights = [int(data[i+1]) for i in range(n)]
+      stack = []
+      max_area = 0
+      for i in range(n + 1):
+          h = heights[i] if i < n else 0
+          while stack and heights[stack[-1]] > h:
+              height = heights[stack.pop()]
+              width = i if not stack else i - stack[-1] - 1
+              max_area = max(max_area, height * width)
+          stack.append(i)
+      print(max_area)
+
+  solve()
+source: "original"
+validation: "exact"

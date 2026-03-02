@@ -1,0 +1,16 @@
+id: "t3-010"
+title: "Rotate Array"
+tier: 3
+topic: "algorithms"
+description: "Given an array of N integers and a number K, rotate the array to the right by K positions. Input: the first line contains N, the second line contains N space-separated integers, and the third line contains K. Output: print the rotated array as space-separated integers on a single line."
+time_estimate: 8
+hint: "K might be larger than N, so use K % N. You can slice the array: take the last K elements and put them before the first N-K elements."
+solution: |
+  n = int(input())
+  arr = list(map(int, input().split()))
+  k = int(input())
+  k = k % n
+  rotated = arr[-k:] + arr[:-k] if k > 0 else arr
+  print(" ".join(map(str, rotated)))
+source: "original"
+validation: "exact"

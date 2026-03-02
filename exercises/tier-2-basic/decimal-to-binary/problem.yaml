@@ -1,0 +1,12 @@
+id: "t2-030"
+title: "Decimal to Binary"
+tier: 2
+topic: "math"
+description: "Read a non-negative integer from stdin. Print its binary representation without any leading zeros (except for the number 0 itself, which should print as \"0\")."
+time_estimate: 5
+hint: "You can use bin() which returns a string like '0b1010', then slice off the '0b' prefix. Alternatively, repeatedly divide by 2 and collect the remainders."
+solution: |
+  n = int(input())
+  print(bin(n)[2:])
+source: "original"
+validation: "exact"

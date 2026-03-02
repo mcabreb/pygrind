@@ -1,0 +1,39 @@
+id: "t4-029"
+title: "Decode Ways"
+tier: 4
+topic: "dp"
+description: |
+  A message containing letters A-Z is encoded using the mapping:
+  'A' -> 1, 'B' -> 2, ..., 'Z' -> 26.
+  Given a string of digits, determine the total number of ways to decode it.
+
+  Input format:
+    - Line 1: a string of digits (1 <= length <= 1000)
+
+  Output format:
+    - A single integer: the number of ways to decode the string.
+    - Leading zeros make a decoding invalid (e.g., "06" cannot be decoded).
+time_estimate: 15
+hint: "Use DP where dp[i] = number of ways to decode s[:i]. For each position, check if the single digit s[i-1] is valid (1-9), and if the two-digit number s[i-2:i] is valid (10-26). Add the corresponding dp values."
+solution: |
+  def solve():
+      s = input().strip()
+      n = len(s)
+      if n == 0 or s[0] == '0':
+          print(0)
+          return
+      dp = [0] * (n + 1)
+      dp[0] = 1
+      dp[1] = 1
+      for i in range(2, n + 1):
+          one_digit = int(s[i-1])
+          two_digit = int(s[i-2:i])
+          if one_digit >= 1:
+              dp[i] += dp[i-1]
+          if 10 <= two_digit <= 26:
+              dp[i] += dp[i-2]
+      print(dp[n])
+
+  solve()
+source: "original"
+validation: "exact"

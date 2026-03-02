@@ -1,0 +1,102 @@
+id: "t5-029"
+title: "2-SAT Satisfiability"
+tier: 5
+topic: "graph theory"
+description: |
+  Given a 2-SAT formula with N boolean variables and M clauses, determine
+  if the formula is satisfiable. Each clause is a disjunction of exactly
+  two literals.
+
+  Input format:
+    - Line 1: two space-separated integers N M
+      (1 <= N <= 100000; 1 <= M <= 200000)
+    - Next M lines: two space-separated integers a b representing the
+      clause (x_|a| OR x_|b|). A positive integer i means x_i, a negative
+      integer -i means NOT x_i. (1 <= |a|, |b| <= N)
+
+  Output format:
+    - Output "YES" if the formula is satisfiable, "NO" otherwise.
+time_estimate: 28
+hint: "Build the implication graph: for each clause (a OR b), add edges (NOT a -> b) and (NOT b -> a). Find SCCs using Kosaraju's or Tarjan's algorithm. The formula is unsatisfiable if and only if some variable and its negation are in the same SCC."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      m = int(data[idx]); idx += 1
+
+      sz = 2 * n
+      adj = [[] for _ in range(sz)]
+      radj = [[] for _ in range(sz)]
+
+      def var_node(x):
+          if x > 0:
+              return 2 * (x - 1)
+          else:
+              return 2 * (-x - 1) + 1
+
+      def neg_node(node):
+          return node ^ 1
+
+      for _ in range(m):
+          a = int(data[idx]); idx += 1
+          b = int(data[idx]); idx += 1
+          na = var_node(a)
+          nb = var_node(b)
+          adj[neg_node(na)].append(nb)
+          adj[neg_node(nb)].append(na)
+          radj[nb].append(neg_node(na))
+          radj[na].append(neg_node(nb))
+
+      visited = [False] * sz
+      order = []
+
+      def dfs1(u):
+          stack = [(u, 0)]
+          visited[u] = True
+          while stack:
+              node, idx2 = stack[-1]
+              if idx2 < len(adj[node]):
+                  stack[-1] = (node, idx2 + 1)
+                  v = adj[node][idx2]
+                  if not visited[v]:
+                      visited[v] = True
+                      stack.append((v, 0))
+              else:
+                  order.append(node)
+                  stack.pop()
+
+      for i in range(sz):
+          if not visited[i]:
+              dfs1(i)
+
+      comp = [-1] * sz
+      cur = 0
+
+      def dfs2(u, c):
+          stack = [u]
+          comp[u] = c
+          while stack:
+              node = stack.pop()
+              for v in radj[node]:
+                  if comp[v] == -1:
+                      comp[v] = c
+                      stack.append(v)
+
+      for u in reversed(order):
+          if comp[u] == -1:
+              dfs2(u, cur)
+              cur += 1
+
+      for i in range(n):
+          if comp[2 * i] == comp[2 * i + 1]:
+              print("NO")
+              return
+
+      print("YES")
+
+  solve()
+source: "original"
+validation: "exact"

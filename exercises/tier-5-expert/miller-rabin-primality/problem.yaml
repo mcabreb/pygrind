@@ -1,0 +1,63 @@
+id: "t5-016"
+title: "Miller-Rabin Primality Test"
+tier: 5
+topic: "number theory"
+description: |
+  Given T integers, determine for each whether it is prime using the
+  Miller-Rabin primality test. For numbers up to 3.3 * 10^24, the
+  deterministic witnesses {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}
+  are sufficient.
+
+  Input format:
+    - Line 1: an integer T (1 <= T <= 10000)
+    - Next T lines: a single integer N (2 <= N <= 10^18)
+
+  Output format:
+    - T lines, each containing "YES" if the number is prime, "NO" otherwise.
+time_estimate: 22
+hint: "Write n-1 as 2^s * d. For each witness a, compute a^d mod n, then repeatedly square. If at any point you get n-1, the test passes. If after all squarings you don't get 1, it's composite."
+solution: |
+  import sys
+
+  def is_prime(n):
+      if n < 2:
+          return False
+      if n < 4:
+          return True
+      if n % 2 == 0 or n % 3 == 0:
+          return False
+
+      d = n - 1
+      s = 0
+      while d % 2 == 0:
+          d //= 2
+          s += 1
+
+      witnesses = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]
+      for a in witnesses:
+          if a >= n:
+              continue
+          x = pow(a, d, n)
+          if x == 1 or x == n - 1:
+              continue
+          for _ in range(s - 1):
+              x = pow(x, 2, n)
+              if x == n - 1:
+                  break
+          else:
+              return False
+      return True
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      t = int(data[idx]); idx += 1
+      out = []
+      for _ in range(t):
+          n = int(data[idx]); idx += 1
+          out.append("YES" if is_prime(n) else "NO")
+      print('\n'.join(out))
+
+  solve()
+source: "original"
+validation: "exact"

@@ -1,0 +1,15 @@
+id: "t1-018"
+title: "Leap Year"
+tier: 1
+topic: "conditionals"
+description: "Read a year (integer) and print 'yes' if it is a leap year, or 'no' otherwise. A year is a leap year if it is divisible by 4, except for years divisible by 100 unless they are also divisible by 400."
+time_estimate: 4
+hint: "A year is a leap year if (divisible by 4 AND not divisible by 100) OR (divisible by 400)."
+solution: |
+  y = int(input())
+  if (y % 4 == 0 and y % 100 != 0) or y % 400 == 0:
+      print("yes")
+  else:
+      print("no")
+source: "original"
+validation: "exact"

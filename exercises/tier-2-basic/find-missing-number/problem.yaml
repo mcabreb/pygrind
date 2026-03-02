@@ -1,0 +1,14 @@
+id: "t2-020"
+title: "Find Missing Number"
+tier: 2
+topic: "math"
+description: "Read an integer N from the first line. Then read N-1 distinct integers (one per line), which are a permutation of 1 to N with exactly one number missing. Print the missing number."
+time_estimate: 5
+hint: "The sum of numbers from 1 to N is N*(N+1)/2. Subtract the sum of the given numbers from this to find the missing one."
+solution: |
+  n = int(input())
+  total = n * (n + 1) // 2
+  s = sum(int(input()) for _ in range(n - 1))
+  print(total - s)
+source: "original"
+validation: "exact"

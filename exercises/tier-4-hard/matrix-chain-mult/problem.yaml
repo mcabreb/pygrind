@@ -1,0 +1,39 @@
+id: "t4-010"
+title: "Matrix Chain Multiplication"
+tier: 4
+topic: "dp"
+description: |
+  Given a chain of N matrices, find the minimum number of scalar
+  multiplications needed to compute the product of all matrices.
+  Matrix i has dimensions p[i-1] x p[i].
+
+  Input format:
+    - Line 1: integer N (number of matrices, 2 <= N <= 200)
+    - Line 2: N+1 space-separated integers representing the dimension array p
+      (1 <= p[i] <= 500)
+
+  Output format:
+    - A single integer: the minimum number of scalar multiplications.
+time_estimate: 18
+hint: "Use interval DP. Let dp[i][j] = minimum cost to multiply matrices i..j. For each split point k, dp[i][j] = min(dp[i][k] + dp[k+1][j] + p[i]*p[k+1]*p[j+1])."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      n = int(data[0])
+      p = list(map(int, data[1:n+2]))
+      dp = [[0] * n for _ in range(n)]
+      for length in range(2, n + 1):
+          for i in range(n - length + 1):
+              j = i + length - 1
+              dp[i][j] = float('inf')
+              for k in range(i, j):
+                  cost = dp[i][k] + dp[k+1][j] + p[i] * p[k+1] * p[j+1]
+                  if cost < dp[i][j]:
+                      dp[i][j] = cost
+      print(dp[0][n-1])
+
+  solve()
+source: "original"
+validation: "exact"

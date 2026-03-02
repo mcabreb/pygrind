@@ -1,0 +1,29 @@
+id: "t3-025"
+title: "Decode String"
+tier: 3
+topic: "data structures"
+description: "Given an encoded string following the pattern k[encoded_string], decode it by repeating the encoded_string k times. Encoding can be nested. Input: a single line containing the encoded string. Output: print the decoded string. Examples: \"3[a]\" becomes \"aaa\", \"2[a3[b]]\" becomes \"abbbabbb\"."
+time_estimate: 12
+hint: "Use a stack. Push characters onto the stack until you encounter ']'. When you do, pop characters until '[' to get the string, then pop digits to get the number, and push the repeated string back onto the stack."
+solution: |
+  s = input()
+  stack = []
+  current_str = ""
+  current_num = ""
+  for ch in s:
+      if ch.isdigit():
+          current_num += ch
+      elif ch == '[':
+          stack.append(current_str)
+          stack.append(int(current_num))
+          current_str = ""
+          current_num = ""
+      elif ch == ']':
+          num = stack.pop()
+          prev_str = stack.pop()
+          current_str = prev_str + current_str * num
+      else:
+          current_str += ch
+  print(current_str)
+source: "original"
+validation: "exact"

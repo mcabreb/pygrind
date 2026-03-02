@@ -1,0 +1,12 @@
+id: "t1-027"
+title: "Reverse String"
+tier: 1
+topic: "strings"
+description: "Read a string and print it reversed."
+time_estimate: 2
+hint: "Use slicing with a step of -1: s[::-1]."
+solution: |
+  s = input()
+  print(s[::-1])
+source: "original"
+validation: "exact"

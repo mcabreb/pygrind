@@ -1,0 +1,35 @@
+id: "t3-019"
+title: "Run-Length Encoding"
+tier: 3
+topic: "strings"
+description: "Implement run-length encoding and decoding. Input: the first line is either \"encode\" or \"decode\". The second line is the string to process. For encoding, compress consecutive identical characters into the count followed by the character (e.g., \"aaabbc\" becomes \"3a2b1c\"). For decoding, expand the encoded string back (e.g., \"3a2b1c\" becomes \"aaabbc\"). Counts in encoded strings are always single or multi-digit numbers followed by a single character. Output: print the result."
+time_estimate: 10
+hint: "For encoding, iterate through the string tracking consecutive characters and their counts. For decoding, parse numbers followed by characters - read digits until you hit a non-digit, then repeat the character that many times."
+solution: |
+  mode = input()
+  s = input()
+  if mode == "encode":
+      result = []
+      i = 0
+      while i < len(s):
+          ch = s[i]
+          count = 0
+          while i < len(s) and s[i] == ch:
+              count += 1
+              i += 1
+          result.append(str(count) + ch)
+      print("".join(result))
+  else:
+      result = []
+      i = 0
+      while i < len(s):
+          num = ""
+          while i < len(s) and s[i].isdigit():
+              num += s[i]
+              i += 1
+          ch = s[i]
+          i += 1
+          result.append(ch * int(num))
+      print("".join(result))
+source: "original"
+validation: "exact"

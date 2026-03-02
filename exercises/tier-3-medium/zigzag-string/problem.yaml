@@ -1,0 +1,24 @@
+id: "t3-017"
+title: "Zigzag String"
+tier: 3
+topic: "strings"
+description: "Write a string in a zigzag pattern on a given number of rows, then read it off line by line. Input: the first line contains the string, the second line contains the number of rows R. Output: print the string read line by line from the zigzag pattern. For example, \"PAYPALISHIRING\" with 3 rows forms:\nP   A   H   N\nA P L S I I G\nY   I   R\nReading line by line gives: PAHNAPLSIIGYIR"
+time_estimate: 10
+hint: "Create R empty strings (one per row). Iterate through the characters, tracking which row you are on and whether you are going down or up. Append each character to its row string, then concatenate all rows."
+solution: |
+  s = input()
+  r = int(input())
+  if r == 1 or r >= len(s):
+      print(s)
+  else:
+      rows = [""] * r
+      cur_row = 0
+      going_down = False
+      for ch in s:
+          rows[cur_row] += ch
+          if cur_row == 0 or cur_row == r - 1:
+              going_down = not going_down
+          cur_row += 1 if going_down else -1
+      print("".join(rows))
+source: "original"
+validation: "exact"

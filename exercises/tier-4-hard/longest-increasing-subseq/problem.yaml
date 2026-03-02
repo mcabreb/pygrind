@@ -1,0 +1,37 @@
+id: "t4-006"
+title: "Longest Increasing Subsequence"
+tier: 4
+topic: "dp"
+description: |
+  Given a sequence of N integers, find the length of the longest strictly
+  increasing subsequence (LIS). A subsequence is obtained by deleting zero
+  or more elements without changing the order of the remaining elements.
+
+  Input format:
+    - Line 1: integer N (1 <= N <= 10000)
+    - Line 2: N space-separated integers (each between -10^9 and 10^9)
+
+  Output format:
+    - A single integer: the length of the longest strictly increasing subsequence.
+time_estimate: 15
+hint: "Use an O(N log N) approach: maintain a list 'tails' where tails[i] is the smallest tail element for an increasing subsequence of length i+1. For each element, use binary search to find its position."
+solution: |
+  import bisect
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      n = int(data[0])
+      nums = list(map(int, data[1:n+1]))
+      tails = []
+      for x in nums:
+          pos = bisect.bisect_left(tails, x)
+          if pos == len(tails):
+              tails.append(x)
+          else:
+              tails[pos] = x
+      print(len(tails))
+
+  solve()
+source: "original"
+validation: "exact"

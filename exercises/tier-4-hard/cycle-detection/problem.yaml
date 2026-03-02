@@ -1,0 +1,56 @@
+id: "t4-013"
+title: "Cycle Detection in Directed Graph"
+tier: 4
+topic: "graphs"
+description: |
+  Given a directed graph with N vertices and M edges, determine if the graph
+  contains a cycle.
+
+  Input format:
+    - Line 1: two integers N M (1 <= N <= 10000, 0 <= M <= 100000)
+    - Next M lines: two integers U V (directed edge from U to V, 0-indexed)
+
+  Output format:
+    - Print "YES" if the graph contains a cycle, "NO" otherwise.
+time_estimate: 15
+hint: "Use DFS with three states: unvisited (0), in current path (1), fully processed (2). If you visit a node that is in state 1 (currently on the DFS stack), a cycle exists."
+solution: |
+  import sys
+  sys.setrecursionlimit(200000)
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      N = int(data[idx]); idx += 1
+      M = int(data[idx]); idx += 1
+      adj = [[] for _ in range(N)]
+      for _ in range(M):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          adj[u].append(v)
+      state = [0] * N
+      has_cycle = False
+
+      def dfs(u):
+          nonlocal has_cycle
+          if has_cycle:
+              return
+          state[u] = 1
+          for v in adj[u]:
+              if state[v] == 1:
+                  has_cycle = True
+                  return
+              if state[v] == 0:
+                  dfs(v)
+          state[u] = 2
+
+      for i in range(N):
+          if state[i] == 0:
+              dfs(i)
+              if has_cycle:
+                  break
+      print("YES" if has_cycle else "NO")
+
+  solve()
+source: "original"
+validation: "exact"

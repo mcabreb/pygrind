@@ -1,0 +1,57 @@
+id: "t4-030"
+title: "Network Delay Time"
+tier: 4
+topic: "graphs"
+description: |
+  There are N network nodes labelled 0 to N-1. You are given a list of
+  directed travel times as edges: (U, V, W) meaning a signal sent from
+  node U arrives at node V after W time units.
+
+  A signal is sent from node K. Determine the minimum time it takes for
+  all nodes to receive the signal. If it is impossible for all nodes to
+  receive the signal, return -1.
+
+  Input format:
+    - Line 1: two integers N M (1 <= N <= 10000, 0 <= M <= 100000)
+    - Line 2: integer K (source node, 0-indexed)
+    - Next M lines: three integers U V W (0 <= U, V < N, 1 <= W <= 10000)
+
+  Output format:
+    - A single integer: the minimum time for all nodes to receive the
+      signal, or -1 if impossible.
+time_estimate: 16
+hint: "Run Dijkstra's algorithm from K to find shortest paths to all nodes. The answer is the maximum shortest path distance. If any node is unreachable, return -1."
+solution: |
+  import heapq
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      N = int(data[idx]); idx += 1
+      M = int(data[idx]); idx += 1
+      K = int(data[idx]); idx += 1
+      adj = [[] for _ in range(N)]
+      for _ in range(M):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          w = int(data[idx]); idx += 1
+          adj[u].append((v, w))
+      INF = float('inf')
+      dist = [INF] * N
+      dist[K] = 0
+      pq = [(0, K)]
+      while pq:
+          d, u = heapq.heappop(pq)
+          if d > dist[u]:
+              continue
+          for v, w in adj[u]:
+              if dist[u] + w < dist[v]:
+                  dist[v] = dist[u] + w
+                  heapq.heappush(pq, (dist[v], v))
+      ans = max(dist)
+      print(ans if ans != INF else -1)
+
+  solve()
+source: "original"
+validation: "exact"

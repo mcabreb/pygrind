@@ -1,0 +1,12 @@
+id: "t1-012"
+title: "Count Digits"
+tier: 1
+topic: "math"
+description: "Read a non-negative integer and print the number of digits it has."
+time_estimate: 2
+hint: "Convert the number to a string and use len()."
+solution: |
+  n = input().strip()
+  print(len(n))
+source: "original"
+validation: "exact"

@@ -1,0 +1,26 @@
+id: "t2-024"
+title: "Run-Length Encoding"
+tier: 2
+topic: "strings"
+description: "Read a string from stdin. Compress it using run-length encoding: replace consecutive repeated characters with the character followed by its count. Single characters (count of 1) should still show the count. For example, \"aaabbc\" becomes \"a3b2c1\"."
+time_estimate: 7
+hint: "Iterate through the string, keeping track of the current character and its count. When the character changes, append the character and count to the result."
+solution: |
+  s = input()
+  if not s:
+      print("")
+  else:
+      result = []
+      current = s[0]
+      count = 1
+      for c in s[1:]:
+          if c == current:
+              count += 1
+          else:
+              result.append(current + str(count))
+              current = c
+              count = 1
+      result.append(current + str(count))
+      print("".join(result))
+source: "original"
+validation: "exact"

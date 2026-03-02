@@ -1,0 +1,15 @@
+id: "t3-018"
+title: "Josephus Problem"
+tier: 3
+topic: "algorithms"
+description: "N people stand in a circle numbered 1 to N. Starting from person 1, every Kth person is eliminated until one remains. Find the position of the last person standing. Input: a single line with two space-separated integers N and K. Output: print the 1-based position of the survivor."
+time_estimate: 10
+hint: "Use the Josephus recurrence: J(1) = 0, J(n) = (J(n-1) + k) % n. The result is 0-indexed, so add 1 at the end. Alternatively, simulate with a list."
+solution: |
+  n, k = map(int, input().split())
+  pos = 0
+  for i in range(2, n + 1):
+      pos = (pos + k) % i
+  print(pos + 1)
+source: "original"
+validation: "exact"

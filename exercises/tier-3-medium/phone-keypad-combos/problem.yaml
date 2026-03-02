@@ -1,0 +1,25 @@
+id: "t3-021"
+title: "Phone Keypad Combinations"
+tier: 3
+topic: "algorithms"
+description: "Given a string of digits (2-9), return all possible letter combinations that the number could represent on a phone keypad. Mapping: 2=abc, 3=def, 4=ghi, 5=jkl, 6=mno, 7=pqrs, 8=tuv, 9=wxyz. Input: a single line containing a string of digits (length 1 to 4). Output: print all combinations in alphabetical order, one per line."
+time_estimate: 12
+hint: "Use recursion or itertools.product. Build combinations character by character. For each digit, try each letter it maps to and recurse on the remaining digits."
+solution: |
+  digits = input()
+  mapping = {
+      '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',
+      '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
+  }
+  results = []
+  def backtrack(idx, current):
+      if idx == len(digits):
+          results.append(current)
+          return
+      for ch in mapping[digits[idx]]:
+          backtrack(idx + 1, current + ch)
+  backtrack(0, "")
+  for r in sorted(results):
+      print(r)
+source: "original"
+validation: "exact"

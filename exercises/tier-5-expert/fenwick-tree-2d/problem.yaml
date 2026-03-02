@@ -1,0 +1,80 @@
+id: "t5-030"
+title: "2D Fenwick Tree — Rectangle Sum Queries"
+tier: 5
+topic: "advanced data structures"
+description: |
+  Given an N x M grid initialized to zeros, process Q operations:
+    - "1 r c v": Add v to the cell at row r, column c (1-indexed).
+    - "2 r1 c1 r2 c2": Query the sum of all cells in the rectangle
+      with top-left corner (r1, c1) and bottom-right corner (r2, c2),
+      inclusive.
+
+  Input format:
+    - Line 1: three space-separated integers N M Q
+      (1 <= N, M <= 1000; 1 <= Q <= 100000)
+    - Next Q lines: either "1 r c v" or "2 r1 c1 r2 c2"
+      (1 <= r, r1, r2 <= N; 1 <= c, c1, c2 <= M; r1 <= r2; c1 <= c2;
+      -10^9 <= v <= 10^9)
+
+  Output format:
+    - For each type-2 query, output the rectangle sum on a separate line.
+time_estimate: 25
+hint: "Extend the 1D Fenwick (Binary Indexed) Tree to 2D. For update at (r, c), iterate over all ancestors in both dimensions. For prefix sum query (1,1) to (r,c), similarly iterate. Use inclusion-exclusion for rectangle queries: sum(r2,c2) - sum(r1-1,c2) - sum(r2,c1-1) + sum(r1-1,c1-1)."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.buffer.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      m = int(data[idx]); idx += 1
+      q = int(data[idx]); idx += 1
+
+      bit = [[0] * (m + 1) for _ in range(n + 1)]
+
+      def update(r, c, v):
+          i = r
+          while i <= n:
+              j = c
+              while j <= m:
+                  bit[i][j] += v
+                  j += j & (-j)
+              i += i & (-i)
+
+      def prefix_sum(r, c):
+          s = 0
+          i = r
+          while i > 0:
+              j = c
+              while j > 0:
+                  s += bit[i][j]
+                  j -= j & (-j)
+              i -= i & (-i)
+          return s
+
+      def rect_sum(r1, c1, r2, c2):
+          return (prefix_sum(r2, c2)
+                  - prefix_sum(r1 - 1, c2)
+                  - prefix_sum(r2, c1 - 1)
+                  + prefix_sum(r1 - 1, c1 - 1))
+
+      out = []
+      for _ in range(q):
+          op = int(data[idx]); idx += 1
+          if op == 1:
+              r = int(data[idx]); idx += 1
+              c = int(data[idx]); idx += 1
+              v = int(data[idx]); idx += 1
+              update(r, c, v)
+          else:
+              r1 = int(data[idx]); idx += 1
+              c1 = int(data[idx]); idx += 1
+              r2 = int(data[idx]); idx += 1
+              c2 = int(data[idx]); idx += 1
+              out.append(str(rect_sum(r1, c1, r2, c2)))
+
+      sys.stdout.write('\n'.join(out) + '\n')
+
+  solve()
+source: "original"
+validation: "exact"

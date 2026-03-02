@@ -1,0 +1,66 @@
+id: "t4-009"
+title: "Minimum Spanning Tree"
+tier: 4
+topic: "graphs"
+description: |
+  Given an undirected weighted connected graph, find the total weight of its
+  Minimum Spanning Tree (MST) using Kruskal's algorithm.
+
+  Input format:
+    - Line 1: two integers N M (vertices, edges)
+      (2 <= N <= 10000, 1 <= M <= 100000)
+    - Next M lines: three integers U V W (edge between U and V with weight W)
+      (0 <= U, V < N, 1 <= W <= 10^6)
+
+  Output format:
+    - A single integer: the total weight of the MST.
+time_estimate: 18
+hint: "Sort edges by weight. Use Union-Find (Disjoint Set Union) to greedily add edges that connect different components. Stop after adding N-1 edges."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      N = int(data[idx]); idx += 1
+      M = int(data[idx]); idx += 1
+      edges = []
+      for _ in range(M):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          w = int(data[idx]); idx += 1
+          edges.append((w, u, v))
+      edges.sort()
+      parent = list(range(N))
+      rank = [0] * N
+
+      def find(x):
+          while parent[x] != x:
+              parent[x] = parent[parent[x]]
+              x = parent[x]
+          return x
+
+      def union(a, b):
+          ra, rb = find(a), find(b)
+          if ra == rb:
+              return False
+          if rank[ra] < rank[rb]:
+              ra, rb = rb, ra
+          parent[rb] = ra
+          if rank[ra] == rank[rb]:
+              rank[ra] += 1
+          return True
+
+      total = 0
+      count = 0
+      for w, u, v in edges:
+          if union(u, v):
+              total += w
+              count += 1
+              if count == N - 1:
+                  break
+      print(total)
+
+  solve()
+source: "original"
+validation: "exact"

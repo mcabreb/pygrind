@@ -1,0 +1,55 @@
+id: "t5-012"
+title: "Digit DP — Count Special Numbers"
+tier: 5
+topic: "dynamic programming"
+description: |
+  Given two integers L and R, count how many integers in the range [L, R]
+  have a digit sum that is divisible by a given integer K.
+
+  Input format:
+    - Line 1: three space-separated integers L R K
+      (1 <= L <= R <= 10^18, 1 <= K <= 100)
+
+  Output format:
+    - A single integer: the count of numbers in [L, R] whose digit sum
+      is divisible by K.
+time_estimate: 25
+hint: "Use digit DP. Define a function count(N) that counts valid numbers in [0, N]. The answer is count(R) - count(L-1). State: (position, remainder of digit sum mod K, tight constraint, started). Memoize on (pos, rem, tight, started)."
+solution: |
+  import sys
+  from functools import lru_cache
+
+  def solve():
+      data = sys.stdin.read().split()
+      L = int(data[0])
+      R = int(data[1])
+      K = int(data[2])
+
+      def count(N):
+          if N < 0:
+              return 0
+          digits = list(map(int, str(N)))
+          n = len(digits)
+
+          @lru_cache(maxsize=None)
+          def dp(pos, rem, tight, started):
+              if pos == n:
+                  if started and rem == 0:
+                      return 1
+                  return 0
+              limit = digits[pos] if tight else 9
+              result = 0
+              for d in range(0, limit + 1):
+                  new_tight = tight and (d == limit)
+                  new_started = started or (d > 0)
+                  new_rem = (rem + d) % K if new_started else 0
+                  result += dp(pos + 1, new_rem, new_tight, new_started)
+              return result
+
+          return dp(0, 0, True, False)
+
+      print(count(R) - count(L - 1))
+
+  solve()
+source: "original"
+validation: "exact"

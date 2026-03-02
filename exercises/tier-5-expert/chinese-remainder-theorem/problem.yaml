@@ -1,0 +1,64 @@
+id: "t5-015"
+title: "Chinese Remainder Theorem"
+tier: 5
+topic: "number theory"
+description: |
+  Given a system of simultaneous congruences:
+    x ≡ r_1 (mod m_1)
+    x ≡ r_2 (mod m_2)
+    ...
+    x ≡ r_k (mod m_k)
+
+  where all m_i are pairwise coprime, find the unique solution x modulo
+  M = m_1 * m_2 * ... * m_k. Output the smallest non-negative x.
+
+  Input format:
+    - Line 1: an integer K (1 <= K <= 20)
+    - Next K lines: two space-separated integers r_i m_i
+      (0 <= r_i < m_i, 2 <= m_i <= 10^9)
+      The m_i are guaranteed to be pairwise coprime.
+
+  Output format:
+    - A single integer: the smallest non-negative x satisfying all congruences.
+time_estimate: 20
+hint: "For each congruence, compute M_i = M / m_i, find the modular inverse of M_i modulo m_i using the extended Euclidean algorithm, then x = sum(r_i * M_i * inv(M_i, m_i)) mod M."
+solution: |
+  import sys
+
+  def extended_gcd(a, b):
+      if a == 0:
+          return b, 0, 1
+      g, x1, y1 = extended_gcd(b % a, a)
+      return g, y1 - (b // a) * x1, x1
+
+  def mod_inverse(a, m):
+      g, x, _ = extended_gcd(a % m, m)
+      return x % m
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      k = int(data[idx]); idx += 1
+      remainders = []
+      moduli = []
+      for _ in range(k):
+          r = int(data[idx]); idx += 1
+          m = int(data[idx]); idx += 1
+          remainders.append(r)
+          moduli.append(m)
+
+      M = 1
+      for m in moduli:
+          M *= m
+
+      x = 0
+      for i in range(k):
+          Mi = M // moduli[i]
+          yi = mod_inverse(Mi, moduli[i])
+          x += remainders[i] * Mi * yi
+
+      print(x % M)
+
+  solve()
+source: "original"
+validation: "exact"

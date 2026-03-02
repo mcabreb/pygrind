@@ -1,0 +1,13 @@
+id: "t2-011"
+title: "Count Words"
+tier: 2
+topic: "strings"
+description: "Read a single line of text from stdin. Print the number of words in the line. Words are separated by one or more spaces. Leading and trailing spaces should be ignored."
+time_estimate: 5
+hint: "Use the split() method with no arguments — it splits on any whitespace and ignores leading/trailing spaces."
+solution: |
+  line = input()
+  words = line.split()
+  print(len(words))
+source: "original"
+validation: "exact"

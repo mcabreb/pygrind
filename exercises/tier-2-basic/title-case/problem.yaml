@@ -1,0 +1,11 @@
+id: "t2-019"
+title: "Title Case"
+tier: 2
+topic: "strings"
+description: "Read a single line of text from stdin. Convert it to title case: capitalize the first letter of every word and make all other letters lowercase. Words are separated by spaces. Print the result."
+time_estimate: 5
+hint: "Python's str.title() method does exactly this. Alternatively, split into words, capitalize each, and rejoin."
+solution: |
+  print(input().title())
+source: "original"
+validation: "exact"

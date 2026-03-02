@@ -1,0 +1,68 @@
+id: "t4-023"
+title: "Longest Path in DAG"
+tier: 4
+topic: "graphs"
+description: |
+  Given a Directed Acyclic Graph (DAG) with N vertices and M weighted edges,
+  find the length of the longest path from a given source vertex S.
+
+  Input format:
+    - Line 1: two integers N M (1 <= N <= 10000, 0 <= M <= 100000)
+    - Line 2: integer S (source vertex, 0-indexed)
+    - Next M lines: three integers U V W (edge from U to V with weight W)
+      (0 <= U, V < N, 1 <= W <= 10000)
+
+  Output format:
+    - A single integer: the length of the longest path from S.
+    - If S has no outgoing paths, print 0.
+time_estimate: 18
+hint: "Topologically sort the DAG. Initialize dist[] to -infinity except dist[S]=0. Process vertices in topological order, relaxing edges to maximize distance. Answer is max of all dist values."
+solution: |
+  import sys
+  from collections import deque
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      N = int(data[idx]); idx += 1
+      M = int(data[idx]); idx += 1
+      S = int(data[idx]); idx += 1
+      adj = [[] for _ in range(N)]
+      indegree = [0] * N
+      for _ in range(M):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          w = int(data[idx]); idx += 1
+          adj[u].append((v, w))
+          indegree[v] += 1
+      # topological sort (Kahn's)
+      queue = deque()
+      for i in range(N):
+          if indegree[i] == 0:
+              queue.append(i)
+      topo = []
+      while queue:
+          u = queue.popleft()
+          topo.append(u)
+          for v, w in adj[u]:
+              indegree[v] -= 1
+              if indegree[v] == 0:
+                  queue.append(v)
+      INF = float('-inf')
+      dist = [INF] * N
+      dist[S] = 0
+      for u in topo:
+          if dist[u] == INF:
+              continue
+          for v, w in adj[u]:
+              if dist[u] + w > dist[v]:
+                  dist[v] = dist[u] + w
+      ans = 0
+      for d in dist:
+          if d != INF and d > ans:
+              ans = d
+      print(ans)
+
+  solve()
+source: "original"
+validation: "exact"

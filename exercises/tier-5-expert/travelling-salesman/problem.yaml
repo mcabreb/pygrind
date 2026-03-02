@@ -1,0 +1,61 @@
+id: "t5-004"
+title: "Travelling Salesman (Bitmask DP)"
+tier: 5
+topic: "dynamic programming"
+description: |
+  Given N cities and the distances between each pair of cities, find the
+  shortest possible route that visits every city exactly once and returns
+  to the starting city (city 0).
+
+  Input format:
+    - Line 1: an integer N (2 <= N <= 16)
+    - Next N lines: N space-separated integers representing the distance
+      matrix. dist[i][j] is the distance from city i to city j.
+      All distances are positive integers <= 10000.
+
+  Output format:
+    - A single integer: the minimum total distance of the optimal tour.
+time_estimate: 25
+hint: "Use bitmask DP where dp[mask][i] represents the minimum cost to visit the set of cities in 'mask' ending at city i. Start from city 0 and try extending to unvisited cities."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      dist = []
+      for i in range(n):
+          row = []
+          for j in range(n):
+              row.append(int(data[idx])); idx += 1
+          dist.append(row)
+
+      INF = float('inf')
+      dp = [[INF] * n for _ in range(1 << n)]
+      dp[1][0] = 0
+
+      for mask in range(1 << n):
+          for u in range(n):
+              if dp[mask][u] == INF:
+                  continue
+              if not (mask & (1 << u)):
+                  continue
+              for v in range(n):
+                  if mask & (1 << v):
+                      continue
+                  new_mask = mask | (1 << v)
+                  cost = dp[mask][u] + dist[u][v]
+                  if cost < dp[new_mask][v]:
+                      dp[new_mask][v] = cost
+
+      full = (1 << n) - 1
+      ans = INF
+      for u in range(n):
+          if dp[full][u] + dist[u][0] < ans:
+              ans = dp[full][u] + dist[u][0]
+      print(ans)
+
+  solve()
+source: "original"
+validation: "exact"

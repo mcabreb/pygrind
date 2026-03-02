@@ -1,0 +1,37 @@
+id: "t5-010"
+title: "Modular Exponentiation"
+tier: 5
+topic: "number theory"
+description: |
+  Given T queries, each with three integers a, b, and m, compute
+  a^b mod m using fast exponentiation (binary exponentiation).
+
+  Input format:
+    - Line 1: an integer T (1 <= T <= 100000)
+    - Next T lines: three space-separated integers a, b, m
+      (0 <= a <= 10^18, 0 <= b <= 10^18, 1 <= m <= 10^18)
+
+  Output format:
+    - T lines, each containing the result of a^b mod m.
+
+  Note: 0^0 should be treated as 1.
+time_estimate: 18
+hint: "Use binary exponentiation: repeatedly square the base and reduce the exponent by half. When the exponent is odd, multiply the result by the base. Always take mod m at each step to prevent overflow."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.buffer.read().split()
+      idx = 0
+      t = int(data[idx]); idx += 1
+      out = []
+      for _ in range(t):
+          a = int(data[idx]); idx += 1
+          b = int(data[idx]); idx += 1
+          m = int(data[idx]); idx += 1
+          out.append(str(pow(a, b, m)))
+      print('\n'.join(out))
+
+  solve()
+source: "original"
+validation: "exact"

@@ -1,0 +1,22 @@
+id: "t3-029"
+title: "Rotate Matrix 90 Degrees"
+tier: 3
+topic: "algorithms"
+description: "Given an N x N matrix of integers, rotate it 90 degrees clockwise. Input: the first line contains N, followed by N lines each containing N space-separated integers. Output: print the rotated matrix, N lines each containing N space-separated integers."
+time_estimate: 10
+hint: "To rotate 90 degrees clockwise, the element at position (r, c) moves to position (c, N-1-r). Equivalently, transpose the matrix and then reverse each row."
+solution: |
+  n = int(input())
+  matrix = []
+  for _ in range(n):
+      matrix.append(list(map(int, input().split())))
+  rotated = []
+  for c in range(n):
+      row = []
+      for r in range(n - 1, -1, -1):
+          row.append(matrix[r][c])
+      rotated.append(row)
+  for row in rotated:
+      print(" ".join(map(str, row)))
+source: "original"
+validation: "exact"

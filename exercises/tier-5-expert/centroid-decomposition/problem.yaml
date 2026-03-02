@@ -1,0 +1,62 @@
+id: "t5-022"
+title: "Centroid Decomposition — Distance Queries"
+tier: 5
+topic: "advanced data structures"
+description: |
+  Given a tree with N nodes and edge weights, answer Q queries. Each query
+  gives a distance D and asks: how many pairs of distinct nodes (u, v)
+  with u < v have their tree distance exactly equal to D?
+
+  Input format:
+    - Line 1: two space-separated integers N Q
+      (2 <= N <= 1000; 1 <= Q <= 100)
+    - Next N-1 lines: three space-separated integers u v w
+      (1 <= u, v <= N; 1 <= w <= 1000) representing an edge with weight w.
+    - Next Q lines: a single integer D (1 <= D <= 10^6)
+
+  Output format:
+    - Q lines, each containing the count of pairs at distance exactly D.
+time_estimate: 30
+hint: "For small N, compute all pairwise distances using BFS/DFS from each node. For larger inputs, use centroid decomposition: find the centroid, compute distances from it to all nodes in its subtree, count pairs, then recurse on subtrees after removing the centroid."
+solution: |
+  import sys
+  from collections import defaultdict, deque
+
+  def solve():
+      data = sys.stdin.read().split()
+      idx = 0
+      n = int(data[idx]); idx += 1
+      q = int(data[idx]); idx += 1
+
+      adj = defaultdict(list)
+      for _ in range(n - 1):
+          u = int(data[idx]); idx += 1
+          v = int(data[idx]); idx += 1
+          w = int(data[idx]); idx += 1
+          adj[u].append((v, w))
+          adj[v].append((u, w))
+
+      dist_count = defaultdict(int)
+
+      for start in range(1, n + 1):
+          visited = [False] * (n + 1)
+          visited[start] = True
+          queue = deque([(start, 0)])
+          while queue:
+              node, d = queue.popleft()
+              if node > start:
+                  dist_count[d] += 1
+              for nb, w in adj[node]:
+                  if not visited[nb]:
+                      visited[nb] = True
+                      queue.append((nb, d + w))
+
+      out = []
+      for _ in range(q):
+          d = int(data[idx]); idx += 1
+          out.append(str(dist_count.get(d, 0)))
+      print('\n'.join(out))
+
+  solve()
+source: "original"
+validation: "exact"

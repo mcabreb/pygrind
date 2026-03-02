@@ -1,0 +1,14 @@
+id: "t1-024"
+title: "Triangle Perimeter"
+tier: 1
+topic: "math"
+description: "Read the lengths of three sides of a triangle (three integers, one per line) and print its perimeter."
+time_estimate: 2
+hint: "The perimeter is simply the sum of all three sides."
+solution: |
+  a = int(input())
+  b = int(input())
+  c = int(input())
+  print(a + b + c)
+source: "original"
+validation: "exact"

@@ -1,0 +1,13 @@
+id: "t1-021"
+title: "Percentage Calculator"
+tier: 1
+topic: "math"
+description: "Read two integers: the score obtained and the maximum score (one per line). Print the percentage as an integer (rounded down). For example, if the score is 45 and max is 60, print 75."
+time_estimate: 3
+hint: "Use integer division: (score * 100) // max_score."
+solution: |
+  score = int(input())
+  max_score = int(input())
+  print((score * 100) // max_score)
+source: "original"
+validation: "exact"

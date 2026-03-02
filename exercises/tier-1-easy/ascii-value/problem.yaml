@@ -1,0 +1,12 @@
+id: "t1-014"
+title: "ASCII Value"
+tier: 1
+topic: "strings"
+description: "Read a single character and print its ASCII value."
+time_estimate: 2
+hint: "Use the built-in ord() function to get the ASCII code of a character."
+solution: |
+  ch = input().strip()
+  print(ord(ch))
+source: "original"
+validation: "exact"

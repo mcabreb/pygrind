@@ -1,0 +1,21 @@
+id: "t2-013"
+title: "Triangle Type"
+tier: 2
+topic: "logic"
+description: "Read three integers from stdin (one per line) representing the sides of a triangle. If the sides cannot form a valid triangle, print \"invalid\". Otherwise, print \"equilateral\" if all three sides are equal, \"isosceles\" if exactly two sides are equal, or \"scalene\" if all sides are different."
+time_estimate: 6
+hint: "A valid triangle requires that the sum of any two sides is greater than the third side. Check all three combinations."
+solution: |
+  a = int(input())
+  b = int(input())
+  c = int(input())
+  if a + b <= c or a + c <= b or b + c <= a:
+      print("invalid")
+  elif a == b == c:
+      print("equilateral")
+  elif a == b or b == c or a == c:
+      print("isosceles")
+  else:
+      print("scalene")
+source: "original"
+validation: "exact"

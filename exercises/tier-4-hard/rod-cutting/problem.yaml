@@ -1,0 +1,34 @@
+id: "t4-020"
+title: "Rod Cutting"
+tier: 4
+topic: "dp"
+description: |
+  Given a rod of length N and a price table that lists the price for each
+  length from 1 to N, determine the maximum revenue obtainable by cutting
+  the rod and selling the pieces.
+
+  Input format:
+    - Line 1: integer N (1 <= N <= 1000)
+    - Line 2: N space-separated integers representing prices for lengths
+      1, 2, ..., N (1 <= price <= 10000)
+
+  Output format:
+    - A single integer: the maximum obtainable revenue.
+time_estimate: 14
+hint: "Use bottom-up DP. dp[i] = max revenue for rod of length i. For each length i, try all cuts j from 1 to i: dp[i] = max(price[j] + dp[i-j])."
+solution: |
+  import sys
+
+  def solve():
+      data = sys.stdin.read().split()
+      n = int(data[0])
+      prices = [0] + [int(data[i+1]) for i in range(n)]
+      dp = [0] * (n + 1)
+      for i in range(1, n + 1):
+          for j in range(1, i + 1):
+              dp[i] = max(dp[i], prices[j] + dp[i - j])
+      print(dp[n])
+
+  solve()
+source: "original"
+validation: "exact"

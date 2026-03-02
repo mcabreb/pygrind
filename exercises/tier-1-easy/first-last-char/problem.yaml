@@ -1,0 +1,12 @@
+id: "t1-016"
+title: "First and Last Character"
+tier: 1
+topic: "strings"
+description: "Read a string and print its first and last characters separated by a space."
+time_estimate: 2
+hint: "Use indexing: s[0] for the first character and s[-1] for the last."
+solution: |
+  s = input()
+  print(s[0], s[-1])
+source: "original"
+validation: "exact"
