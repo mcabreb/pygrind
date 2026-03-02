@@ -9,7 +9,7 @@
 ; Output: dist/PyTrainer-Setup.exe
 
 #define AppName "PyTrainer"
-#define AppVersion "0.1.0"
+#define AppVersion "1.0.0"
 #define AppPublisher "PyTrainer Project"
 #define AppExeName "pytrainer.exe"
 #define AppURL "https://github.com/pytrainer/pytrainer"
