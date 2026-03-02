@@ -19,6 +19,7 @@ class MainWindow(QMainWindow):
         self._config_screen: QWidget | None = None
         self._competition_screen: QWidget | None = None
         self._results_screen: QWidget | None = None
+        self._history_screen: QWidget | None = None
 
     # -- Screen registration ---------------------------------------------------
 
@@ -38,6 +39,10 @@ class MainWindow(QMainWindow):
         self._results_screen = widget
         self._stack.addWidget(widget)
 
+    def register_history(self, widget: QWidget) -> None:
+        self._history_screen = widget
+        self._stack.addWidget(widget)
+
     # -- Navigation ------------------------------------------------------------
 
     def show_menu(self) -> None:
@@ -55,3 +60,7 @@ class MainWindow(QMainWindow):
     def show_results(self) -> None:
         if self._results_screen is not None:
             self._stack.setCurrentWidget(self._results_screen)
+
+    def show_history(self) -> None:
+        if self._history_screen is not None:
+            self._stack.setCurrentWidget(self._history_screen)

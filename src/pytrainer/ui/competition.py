@@ -13,6 +13,7 @@ from PyQt6.QtWidgets import (
 from pytrainer.ui.editor import EditorWidget
 from pytrainer.ui.output import OutputPanel
 from pytrainer.ui.problem import ProblemPanel
+from pytrainer.ui.problem_list import ProblemListWidget
 from pytrainer.ui.timer_widget import TimerWidget
 
 
@@ -21,6 +22,7 @@ class CompetitionWindow(QWidget):
 
     run_requested = pyqtSignal()
     submit_requested = pyqtSignal()
+    end_session_requested = pyqtSignal()
 
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -31,10 +33,14 @@ class CompetitionWindow(QWidget):
         self.timer_widget = TimerWidget(self)
         root_layout.addWidget(self.timer_widget)
 
-        # Main horizontal splitter: problem panel (left) | editor+output (right)
+        # Main horizontal splitter: problem list | problem panel | editor+output
         self._main_splitter = QSplitter(Qt.Orientation.Horizontal, self)
 
-        # Left: problem panel
+        # Far left: problem navigation list
+        self.problem_list = ProblemListWidget(self)
+        self._main_splitter.addWidget(self.problem_list)
+
+        # Middle: problem panel
         self.problem_panel = ProblemPanel(self)
         self._main_splitter.addWidget(self.problem_panel)
 
@@ -51,6 +57,12 @@ class CompetitionWindow(QWidget):
 
         # Button bar
         button_bar = QHBoxLayout()
+
+        self.end_button = QPushButton("End Session")
+        self.end_button.setMinimumSize(100, 32)
+        self.end_button.clicked.connect(self.end_session_requested)
+        button_bar.addWidget(self.end_button)
+
         button_bar.addStretch()
 
         self.run_button = QPushButton("Run")
@@ -75,8 +87,8 @@ class CompetitionWindow(QWidget):
 
         self._main_splitter.addWidget(self._right_splitter)
 
-        # Initial main splitter ratio: 35% problem, 65% editor+output
-        self._main_splitter.setSizes([350, 650])
+        # Initial main splitter ratio: 15% problem list, 30% problem, 55% editor+output
+        self._main_splitter.setSizes([180, 360, 660])
 
         root_layout.addWidget(self._main_splitter)
 
